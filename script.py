@@ -1,4 +1,5 @@
-#Tyler suggested that I make a tic-tac-toe game. The challenge is to be as efficient as possible in checking whether or not the game has been won.
+#Tyler suggested that I make a tic-tac-toe game.
+#The challenge is to be as efficient as possible in checking whether or not the game has been won.
 #Just for fun (since this is a distraction from the data science coding), I am adding a visualization
 
 import random
@@ -50,17 +51,17 @@ def show_board():
 def update_board(pos,char):
     #Bringing in global parameters
     global center_symbol
-    global current_turn
+    global turn_counter
     global is_board_full
     #Updating the position column
     board_df.loc[board_df.position == pos, "symbol"] = char
     #Updating the is_available column
     board_df["is_available"] = board_df.symbol.isna()
     #Update center square if applicable
-    if requested_pos == 5:
+    if pos == 5:
         center_symbol = char
-    if current_turn > 8:
-        is_board_full = board_df.position.isna().count() == 0:
+    if turn_counter > 8:
+        is_board_full = board_df.position.isna().count() == 0
 
 #This function checks if a move is valid:
 def is_valid_move(pos):
@@ -75,7 +76,7 @@ def is_symbol(symbol,pos_list):
 
 def turn(turn_val):
     #bringing in global parameters
-    global current_turn
+    global turn_counter
     global winner
     global is_board_full
     #The current player, as well as their name and symbol, are identified based on whether the current turn is odd or even.
@@ -115,14 +116,14 @@ def turn(turn_val):
         return
     #If the game is not won, add a value to the turn counter
     else:
-        current_turn +=1
+        turn_counter +=1
         return
 
 #This function checks if the game has been won, based on the position and symbol marked in the latest turn. I haven't tested it yet!
 def is_game_won(turn_position,turn_symbol):
     #If less than five turns have been played, it is impossible for either player to have won.
     #Note, the function uses 4 because the turn counter starts at zero.
-    if current_turn < 4:
+    if turn_counter < 4:
         return False
     #For non-corner, non-center positions, the function checks the relevant row and column.
     elif turn_position == 2:
@@ -183,15 +184,15 @@ is_board_full = False
 #No player has won yet
 winner = None
 #Set our turn counter at zero
-current_turn = 0
+turn_counter = 0
 #Select a random number to chose who goes first
 rand_val = random.randint(0,1)
 
 #LEARN PLAYER NAMES
 
 #Generic names will be overwritten by player input but allow the rest of this section to be commented out while testing other areas.
-player_x_name = "Player X"
-player_o_name = "Player O"
+player_x_name = "Player x"
+player_o_name = "Player o"
 
 #Request that players enter their names
 #the first player to enter their name will play x
@@ -216,3 +217,6 @@ player_o_name = "Player O"
     #print(player_o_name+ "goes first!")
 
 ## PLAY GAME
+
+while (winner == None) and (is_board_full == False):
+    turn(turn_counter)
