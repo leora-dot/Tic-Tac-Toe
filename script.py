@@ -48,14 +48,19 @@ def show_board():
 
 # This function adds a character to the current board
 def update_board(pos,char):
+    #Bringing in global parameters
+    global center_symbol
+    global current_turn
+    global is_board_full
     #Updating the position column
     board_df.loc[board_df.position == pos, "symbol"] = char
     #Updating the is_available column
     board_df["is_available"] = board_df.symbol.isna()
     #Update center square if applicable
     if requested_pos == 5:
-        global center_symbol
-        center_symbol = symbol
+        center_symbol = char
+    if current_turn > 8:
+        is_board_full = board_df.position.isna().count() == 0:
 
 #This function checks if a move is valid:
 def is_valid_move(pos):
@@ -68,9 +73,13 @@ def is_symbol(symbol,pos_list):
             return False
     return True
 
-def turn(current_turn):
+def turn(turn_val):
+    #bringing in global parameters
+    global current_turn
+    global winner
+    global is_board_full
     #The current player, as well as their name and symbol, are identified based on whether the current turn is odd or even.
-    if current_turn%2 == rand_val:
+    if turn_val%2 == rand_val:
         player = player_x_name
         symbol = "x"
     else:
@@ -95,14 +104,17 @@ def turn(current_turn):
             print(str(requested_pos)+" isn't a valid empty spot. \nThe numbers associated with each available spot are shown on the board.")
     #If the game has been won, declare a winner, print a congratulations, and show the final board
     if is_game_won(requested_pos,symbol):
-        global winner
         winner = player
         print(player + "wins! Congratulations")
         show_board()
         return
+    #If the board is full with no winner, declare a tie
+    elif is_board_full == True:
+        print("It's a tie!")
+        show_board()
+        return
     #If the game is not won, add a value to the turn counter
     else:
-        global current_turn
         current_turn +=1
         return
 
@@ -166,6 +178,8 @@ def is_game_won(turn_position,turn_symbol):
 board_df = pd.read_csv('board.csv')
 #No player has marked the center square yet
 center_symbol = None
+#Board is not full
+is_board_full = False
 #No player has won yet
 winner = None
 #Set our turn counter at zero
@@ -181,24 +195,24 @@ player_o_name = "Player O"
 
 #Request that players enter their names
 #the first player to enter their name will play x
-print("Enter your name, player one:")
-player_x_name = input()
-print("Welcome, "+player_x_name +"!\n You will play x")
+#print("Enter your name, player one:")
+#player_x_name = input()
+#print("Welcome, "+player_x_name +"!\n You will play x")
 
 #the second player to enter their name will play y
-print("Enter your name, player two:")
-player_o_name = input()
-print("Welcome, "+player_o_name +"!\n You will play o")
+#print("Enter your name, player two:")
+#player_o_name = input()
+#print("Welcome, "+player_o_name +"!\n You will play o")
 
 # ANNOUNCE WHO WILL GO FIRST
 # this section is just text and can be commented out while testing other areas.
 
-print("Flipping a coin...")
+#print("Flipping a coin...")
 
 #decide who will go first based on random value
-if rand_val == 0:
+#if rand_val == 0:
     #print(player_x_name+ "goes first!")
-else:
+#else:
     #print(player_o_name+ "goes first!")
 
 ## PLAY GAME
