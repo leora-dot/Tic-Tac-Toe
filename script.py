@@ -22,15 +22,33 @@ board_df = pd.read_csv('board.csv')
 ## FUNCTIONS THAT WILL POWER THE GAME GO HERE
 
 def position_to_index(position):
-    index = position - 1
-    return position
+    return position - 1
 
 # This function shows the current board
 def print_board():
-    #This section creates nine figures
+    char_color = "blue"
+    #Creating the Visualization
     plt.figure()
     for position in board_df.position.tolist():
-        plt.subplot(3,3,position)
+        #Creating the Square
+        ax = plt.subplot(3,3,position)
+        ax.set_xlim(0,1)
+        ax.set_ylim(0,1)
+        ax.set_xticks([],[])
+        ax.set_yticks([],[])
+        ax.set_aspect(1)
+        #If position is available (Identified based on the fact that nan objects are floats)
+        if isinstance(board_df.symbol.iloc[position_to_index(position)], float):
+            plt.scatter(1.5,1.5, label = "Press "+str(position), color = "grey")
+            plt.legend(loc = "lower center")
+        #If position is an o
+        elif board_df.symbol.iloc[position_to_index(position)] == "o":
+            draw_circle = plt.Circle((0.5,0.5), radius = .4, fill = False, color = char_color)
+            ax.add_artist(draw_circle)
+        #If position is an x
+        else:
+            plt.plot([0.2,0.8],[0.8,0.2], color = char_color)
+            plt.plot([0.2,0.8],[0.2,0.8], color = char_color)
     #Show & Close
     plt.show()
     plt.close("all")
@@ -48,28 +66,9 @@ def update_board(pos,char):
 update_board(3,"x")
 update_board(4,"o")
 
-#print(board_df)
-
 print_board()
 
-# This function, I want to delete
-def print_available_board():
-    print(str(board_with_available_spots[0])+str(board_with_available_spots[1])+str(board_with_available_spots[2]))
-    print(str(board_with_available_spots[3])+str(board_with_available_spots[4])+str(board_with_available_spots[5]))
-    print(str(board_with_available_spots[6])+str(board_with_available_spots[7])+str(board_with_available_spots[8]))
-
-# This function, I also want to delete
-def available_spots(board):
-    global board_with_available_spots
-    board_with_available_spots = []
-    global available_spots
-    available_spots = []
-    for i in range(0,9):
-        if board[i] == "-":
-            board_with_available_spots.append(i)
-            available_spots.append(i)
-        else:
-            board_with_available_spots.append(board[i])
+#print_board()
 
 def turn(current_turn):
     # Setting Player & Symbol
