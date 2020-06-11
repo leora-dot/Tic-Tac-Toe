@@ -25,7 +25,7 @@ def position_to_index(position):
     return position - 1
 
 # This function shows the current board
-def print_board():
+def show_board():
     char_color = "blue"
     #Creating the Visualization
     plt.figure()
@@ -54,21 +54,25 @@ def print_board():
     plt.close("all")
     plt.clf()
 
-#print_board()
-
+# This function adds a character to the current board
 def update_board(pos,char):
     #Updating symbol
     board_df.loc[board_df.position == pos, "symbol"] = char
     #Updating support columns
     board_df["is_available"] = board_df.symbol.isna()
-    #print(board_df)
 
 update_board(3,"x")
 update_board(4,"o")
 
-print_board()
+print(board_df)
 
-#print_board()
+#This function checks if a move is valid:
+
+def is_valid_move(pos):
+    return board_df.is_available.iloc[position_to_index(pos)])
+
+is_valid_move(2)
+is_valid_move(3)
 
 def turn(current_turn):
     # Setting Player & Symbol
@@ -82,7 +86,7 @@ def turn(current_turn):
     # Introducing the Turn
     print("It's your turn, "+player+"!")
     print("Here is the current board")
-    print_board()
+    show_board()
     print("Enter a number to chose a spot to play")
     available_spots(board)
     print_available_board()
@@ -93,8 +97,6 @@ def turn(current_turn):
 ## INITIALIZE GAME
 
 #Set Up Variables
-
-board = ["-","-","-","-","-","-","-","-","-"]
 
 board_df = pd.read_csv('board.csv')
 
