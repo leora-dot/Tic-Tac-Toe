@@ -102,7 +102,15 @@ def turn(current_turn):
             is_board_updated = True
         else:
             print(str(requested_pos)+" isn't a valid empty spot. \nThe numbers associated with each available spot are shown on the board.")
-    #Check for winner, and update turn counter
+    # If game has been is_game_won
+    if is_game_won(requested_pos,symbol):
+        print(player + "wins! Congratulations")
+        show_board()
+        return
+    else:
+        global current_turn
+        current_turn +=1
+        return
 
 def is_game_won(turn_position,turn_symbol):
     if current_turn < 4:
