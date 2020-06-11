@@ -1,7 +1,12 @@
 # I'm bored, and Tyler suggested I make tic-tac-toe.
 
 import random
+import pandas as pd
+import matplotlib.pyplot as plt
 
+board_df = pd.read_csv('board.csv')
+
+#Project Plan
 # INITIALIZE GAME
 # Get player names
 # Flip the coin
@@ -12,18 +17,40 @@ import random
 # PLAY GAME
 # Set winner
 # while winner = none, turn
-
 #TURN: prompt turn, valid turn, update board, check for winner, either update current turn or announce winner
-
-# Let's make the board and set up a mechanism to print it. I want to have x,o, and -. Let's start with nine dashes.
 
 ## FUNCTIONS THAT WILL POWER THE GAME GO HERE
 
+def position_to_index(position):
+    index = position - 1
+    return position
+
 # This function shows the current board
 def print_board():
-    print(board[0]+board[1]+board[2])
-    print(board[3]+board[4]+board[5])
-    print(board[6]+board[7]+board[8])
+    #This section creates nine figures
+    plt.figure()
+    for position in board_df.position.tolist():
+        plt.subplot(3,3,position)
+    #Show & Close
+    plt.show()
+    plt.close("all")
+    plt.clf()
+
+#print_board()
+
+def update_board(pos,char):
+    #Updating symbol
+    board_df.loc[board_df.position == pos, "symbol"] = char
+    #Updating support columns
+    board_df["is_available"] = board_df.symbol.isna()
+    #print(board_df)
+
+update_board(3,"x")
+update_board(4,"o")
+
+#print(board_df)
+
+print_board()
 
 # This function, I want to delete
 def print_available_board():
@@ -69,6 +96,8 @@ def turn(current_turn):
 #Set Up Variables
 
 board = ["-","-","-","-","-","-","-","-","-"]
+
+board_df = pd.read_csv('board.csv')
 
 current_turn = 0
 rand_val = random.randint(0,1)
