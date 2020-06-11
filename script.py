@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 
 board_df = pd.read_csv('board.csv')
 
+center_symbol = None
+
 #Project Plan
 # INITIALIZE GAME
 # Get player names
@@ -22,7 +24,7 @@ board_df = pd.read_csv('board.csv')
 ## FUNCTIONS THAT WILL POWER THE GAME GO HERE
 
 def position_to_index(position):
-    return position - 1
+    return position-1
 
 # This function shows the current board
 def show_board():
@@ -62,43 +64,96 @@ def update_board(pos,char):
     board_df["is_available"] = board_df.symbol.isna()
 
 update_board(3,"x")
-update_board(4,"o")
-
-print(board_df)
+update_board(4,"x")
 
 #This function checks if a move is valid:
 
 def is_valid_move(pos):
-    return board_df.is_available.iloc[position_to_index(pos)])
+    return board_df.is_available.iloc[position_to_index(pos)]
 
-is_valid_move(2)
-is_valid_move(3)
+def is_symbol(symbol,pos_list):
+    for pos in pos_list:
+        if board_df.symbol.iloc[position_to_index(pos)] != symbol:
+            return False
+    return True
 
 def turn(current_turn):
-    # Setting Player & Symbol
+    #Identifying the current player and their symbol
     if current_turn%2 == rand_val:
         player = player_x_name
         symbol = "x"
     else:
         player = player_o_name
         symbol = "o"
-    print(player)
+    is_board_updated = False
     # Introducing the Turn
     print("It's your turn, "+player+"!")
-    print("Here is the current board")
-    show_board()
-    print("Enter a number to chose a spot to play")
-    available_spots(board)
-    print_available_board()
-    position = None
-    while position not in available_spots:
-        pass
+    while is_board_updated == False:
+        print("Review the current board then enter the number of the spot you'd like to mark.")
+        show_board()
+        requested_pos = int(input())
+        #If the move is valid, update the board
+        if is_valid_move(requested_pos):
+            update_board(requested_pos, symbol)
+            #if center position was taken, also update center symbol
+            if requested_pos == 5:
+                global center_symbol
+                center_symbol = symbol
+            is_board_updated = True
+        else:
+            print(str(requested_pos)+" isn't a valid empty spot. \nThe numbers associated with each available spot are shown on the board.")
+    #Check for winner, and update turn counter
+
+def is_game_won(turn_position,turn_symbol):
+    if current_turn < 4:
+        return False
+    elif turn_position == 1:
+        if center_symbol == turn_symbol:
+            if (is_symbol(turn_symbol, [2,3])) or (is_symbol(turn_symbol, [4,7])) or (is_symbol(turn_symbol,[9])):
+                return True
+        elif (is_symbol(turn_symbol, [2,3])) or (is_symbol(turn_symbol, [4,7])):
+            return True
+    elif turn_position == 2:
+        if (is_symbol(turn_symbol, [1,3])) or (is_symbol(turn_symbol, [5,8])):
+            return True
+    elif turn_position == 3:
+        if center_symbol == turn_symbol:
+            if (is_symbol(turn_symbol, [1,2])) or (is_symbol(turn_symbol, [6,9])) or (is_symbol(turn_symbol,[7])):
+                return True
+        elif (is_symbol(turn_symbol, [1,2])) or (is_symbol(turn_symbol, [6,9])):
+            return True
+    elif turn_position == 4:
+        if (is_symbol(turn_symbol, [5,6])) or (is_symbol(turn_symbol, [1,7])):
+            return True
+    elif turn_position == 5:
+        if (is_symbol(turn_symbol, [4,6])) or (is_symbol(turn_symbol, [2,8])) or (is_symbol(turn_symbol,[1,9])) or (is_symbol(turn_symbol,[3,7])):
+            return True
+    elif turn_position == 6:
+        if (is_symbol(turn_symbol, [4,5])) or (is_symbol(turn_symbol, [3,9])):
+            return True
+    elif turn_position == 7:
+        if center_symbol == turn_symbol:
+            if (is_symbol(turn_symbol, [8,9])) or (is_symbol(turn_symbol, [1,4])) or (is_symbol(turn_symbol,[3])):
+                return True
+        elif (is_symbol(turn_symbol, [8,9])) or (is_symbol(turn_symbol, [1,4])):
+            return True
+    elif turn_position == 8:
+        if (is_symbol(turn_symbol, [7,9])) or (is_symbol(turn_symbol, [2,5])):
+            return True
+    elif turn_position == 9:
+        if center_symbol == turn_symbol:
+            if (is_symbol(turn_symbol, [7,8])) or (is_symbol(turn_symbol, [3,6])) or (is_symbol(turn_symbol,[1])):
+                return True
+        elif (is_symbol(turn_symbol, [7,8])) or (is_symbol(turn_symbol, [3,6])):
+            return True
+    else:
+        return False
 
 ## INITIALIZE GAME
 
 #Set Up Variables
 
-board_df = pd.read_csv('board.csv')
+#board_df = pd.read_csv('board.csv')
 
 current_turn = 0
 rand_val = random.randint(0,1)
@@ -126,3 +181,5 @@ player_o_name = "Player O"
     #print(player_o_name+ "goes first!")
 
 ## PLAY GAME
+
+#turn(current_turn)
