@@ -60,12 +60,16 @@ def update_board(pos,char):
     #Update center square if applicable
     if pos == 5:
         center_symbol = char
-    if turn_counter > 8:
-        is_board_full = board_df.position.isna().count() == 0
+    #Evaulate whether the board is full
+    if turn_counter == 8:
+        is_board_full = True
 
 #This function checks if a move is valid:
 def is_valid_move(pos):
-    return board_df.is_available.iloc[position_to_index(pos)]
+    if pos in list(range(1,10)):
+        return board_df.is_available.iloc[position_to_index(pos)]
+    else:
+        return False
 
 #This function checks whether every position in a list is marked with a given symbol
 def is_symbol(symbol,pos_list):
@@ -106,7 +110,7 @@ def turn(turn_val):
     #If the game has been won, declare a winner, print a congratulations, and show the final board
     if is_game_won(requested_pos,symbol):
         winner = player
-        print(player + "wins! Congratulations")
+        print(player + " wins! Congratulations")
         show_board()
         return
     #If the board is full with no winner, declare a tie
