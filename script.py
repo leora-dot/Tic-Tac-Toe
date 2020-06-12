@@ -78,6 +78,8 @@ def is_symbol(symbol,pos_list):
             return False
     return True
 
+#this function processes each turn.
+#Turn_val will always be turn_counter, but it has its own name here since the turn_counter is used globally.
 def turn(turn_val):
     #bringing in global parameters
     global turn_counter
@@ -218,6 +220,7 @@ rand_val = random.randint(0,1)
 player_x_name = "Player x"
 player_o_name = "Player o"
 
+#PLAYING THE GAME
 #Opening sequence can be commented out. It is just text.
 opening_sequence()
 #Looping through turns until we have a winner or a full board.
