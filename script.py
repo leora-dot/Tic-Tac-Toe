@@ -177,6 +177,27 @@ def is_game_won(turn_position,turn_symbol):
     else:
         return False
 
+def opening_sequence():
+    #Bringing in global variables
+    global player_x_name
+    global player_o_name
+    #Learning Player Names
+    #the first player to enter their name will play x
+    print("Enter your name, player one:")
+    player_x_name = input()
+    print("Welcome, "+player_x_name +"!\n You will play x")
+    #the second player to enter their name will play y
+    print("Enter your name, player two:")
+    player_o_name = input()
+    print("Welcome, "+player_o_name +"!\n You will play o")
+    #announce who will go first
+    print("Flipping a coin...")
+    #decide who will go first based on random value
+    if rand_val == 0:
+        print(player_x_name+ "goes first!")
+    else:
+        print(player_o_name+ "goes first!")
+
 ## INITIALIZE GAME
 
 #Load empty board dataframe
@@ -192,35 +213,13 @@ turn_counter = 0
 #Select a random number to chose who goes first
 rand_val = random.randint(0,1)
 
-#LEARN PLAYER NAMES
-
-#Generic names will be overwritten by player input but allow the rest of this section to be commented out while testing other areas.
+#Generic names will be overwritten if the opening sequence function is run.
+#These will be used just when the opening sequence is disabled for testing other areas of the game.
 player_x_name = "Player x"
 player_o_name = "Player o"
 
-#Request that players enter their names
-#the first player to enter their name will play x
-#print("Enter your name, player one:")
-#player_x_name = input()
-#print("Welcome, "+player_x_name +"!\n You will play x")
-
-#the second player to enter their name will play y
-#print("Enter your name, player two:")
-#player_o_name = input()
-#print("Welcome, "+player_o_name +"!\n You will play o")
-
-# ANNOUNCE WHO WILL GO FIRST
-# this section is just text and can be commented out while testing other areas.
-
-#print("Flipping a coin...")
-
-#decide who will go first based on random value
-#if rand_val == 0:
-    #print(player_x_name+ "goes first!")
-#else:
-    #print(player_o_name+ "goes first!")
-
-## PLAY GAME
-
+#Opening sequence can be commented out. It is just text.
+opening_sequence()
+#Looping through turns until we have a winner or a full board.
 while (winner == None) and (is_board_full == False):
     turn(turn_counter)
