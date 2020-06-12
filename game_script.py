@@ -6,6 +6,16 @@ import random
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# OUTSTANDING WORK?
+    # Why do we sometimes get two figures for the board?
+    # Turn function terminates if non-digit character is entered.
+    # Testing is_game_won function:
+        #do we catch all winning combinations?
+        #do we correctly recognize non-winning combinations?
+    #Updating board Visualization
+        #add title to winning boards
+        #move squares closer together to look like a grid
+
 ## FUNCTIONS THAT WILL POWER THE GAME GO HERE
 
 #this function turns board position numbers (1-9) into board_df index numbers (0-8)
@@ -221,8 +231,10 @@ player_x_name = "Player x"
 player_o_name = "Player o"
 
 #PLAYING THE GAME
+    #Actual gameplay happens here. These three lines can be commented out when testing.
+
 #Opening sequence can be commented out. It is just text.
-opening_sequence()
+#opening_sequence()
 #Looping through turns until we have a winner or a full board.
-while (winner == None) and (is_board_full == False):
-    turn(turn_counter)
+#while (winner == None) and (is_board_full == False):
+    #turn(turn_counter)
