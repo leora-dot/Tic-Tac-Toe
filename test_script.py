@@ -11,7 +11,7 @@
 #CAVEATS
     #This may be impractical given the large number of possible cases -> consider random sampling
     #Because the bulk of the possible cases come from the case in which five board spots are filled, I will ignore that case when building out testing script.
-    #That case can be added later in full or in part. But no need to wait through the processing times until the end. 
+    #That case can be added later in full or in part. But no need to wait through the processing times until the end.
 
 #importing functions needed
 
@@ -43,13 +43,13 @@ def factorial(val):
 def permutation(n,k):
     return factorial(n)/factorial((n-k))
 
-#NUMBER OF TEST CASES
+#CALCULATING NUMBER OF TEST CASES
 #At the end of the five move game a player can have filled any five spots, meaning we would need to test:
     #all possible board configurations with five spots five spots P(9,5) + four spots P(9,4) +three spots P(9,3).
     #two spots and one spots do not need to be tested since the is_game_won function defaults to False in these conditions.
     #the number of spots we need to generate is:
 
-print(permutation(9,5) + permutation(9,4) + permutation(9,3))
+#print(permutation(9,5) + permutation(9,4) + permutation(9,3))
 #18,648 board configurations
 
 #Once we have all the combinations, we need to test each of them for all possible latest positions.
@@ -57,7 +57,9 @@ print(permutation(9,5) + permutation(9,4) + permutation(9,3))
     #In that case we have five spots (5 x 5! = 600), four spots (4 x 4! = 96), three spots (3 x 3! = 18)
     #the number of cases to test is:
 
-print(5*permutation(9,5) + 4*permutation(9,4) + 3*permutation(9,3))
+#print(5*permutation(9,5) + 4*permutation(9,4) + 3*permutation(9,3))
 #89,208 test cases.
 
-# that is a lot. Might want to test only a random sample, but let's see how it goes.
+#POPULATING PANDAS TABLE WITH ALL TEST CASES
+
+testing_df = pd.read_csv('test_is_game_won.csv')
