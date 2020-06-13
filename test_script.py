@@ -76,6 +76,10 @@ def is_digit_in_integer(digit,integer):
 
 #Generates board based on row in testing dataframe
 def row_to_board(row_index, symbol = "x"):
+    #start from clean board
+    global board_df
+    #board_df = pd.read_csv('board.csv')
+    #update board based on row
     if testing_df.is_pos_1.iloc[row_index]:
         update_board(1,symbol)
     if testing_df.is_pos_2.iloc[row_index]:
@@ -94,6 +98,18 @@ def row_to_board(row_index, symbol = "x"):
         update_board(8,symbol)
     if testing_df.is_pos_9.iloc[row_index]:
         update_board(9,symbol)
+
+#Generates adds the result of the is_game_won function to the testing df
+def game_result_generator(symbol = "x"):
+    global board_df
+    testing_df["is_actual_win"] = ""
+    for row_index in range(testing_df.is_valid_win.count()):
+        #create the board
+        row_to_board(row_index, symbol)
+        print(board_df)
+        #game_result = is_game_won(testing_df.latest_pos.iloc[row_index],symbol)
+        #post result to table
+        #testing_df.at[row_index,"is_actual_win"] = game_result
 
 #CALCULATING NUMBER OF TEST CASES
 
@@ -184,6 +200,11 @@ testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147
 
 ##GENERATING GAME RESULTS BASED ON THE TEST CASES
 
-row_to_board(0)
+#Cutting off DF just for writing FUNCTIONS
+testing_df = testing_df.head(5)
 
-print(board_df)
+turn_counter = 5
+game_result_generator()
+
+#result_table = testing_df.groupby("is_actual_win").is_valid_win.count()
+#print(result_table)
