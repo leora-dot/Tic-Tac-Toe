@@ -46,9 +46,17 @@ def factorial(val):
 def combination_num(n,r):
     return factorial(n)/((factorial(r)*factorial(n-r)))
 
-def combination_list(k, n = 10, symbol = "x"):
-    perm_list = list(itertools.combinations(list(range(1,n)),k))
-    return perm_list
+def combination_list(k, n = 10):
+    #this generates a list of lists
+    combs_list = list(itertools.combinations(list(range(1,n)),k))
+    #generating strings with each item
+    combs_strings = []
+    for comb in combs_list:
+        string = ""
+        for i in range(len(comb)):
+            string += str(comb[i])
+        combs_strings.append(string)
+    return combs_strings
 
 #CALCULATING NUMBER OF TEST CASES
 
@@ -70,6 +78,9 @@ def combination_list(k, n = 10, symbol = "x"):
 
 #POPULATING PANDAS TABLE WITH ALL TEST CASES
 
-testing_df = pd.read_csv('test_is_game_won.csv')
+#list of board configurations
+board_configuration_list = combination_list(3) + combination_list(4) + combination_list(5)
 
-print(len((combination_list(3))))
+#creating testing df
+testing_df = pd.DataFrame(board_configuration_list)
+print(testing_df)
