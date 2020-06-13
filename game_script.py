@@ -52,6 +52,9 @@ def show_board():
             #two lines make an x
             plt.plot([0.2,0.8],[0.8,0.2], color = char_color)
             plt.plot([0.2,0.8],[0.2,0.8], color = char_color)
+    #Putting the plots together
+    plt.subplots_adjust(wspace = 0)
+    plt.subplots_adjust(hspace = 0)
     #Show & Close
     plt.show()
     plt.close("all")

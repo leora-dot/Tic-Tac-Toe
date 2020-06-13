@@ -58,6 +58,13 @@ def combination_list(k, n = 10):
         combs_strings.append(string)
     return combs_strings
 
+def position_generator(string_list):
+    position_list = []
+    for string in string_list:
+        for i in range(len(string)):
+            position_list.append((string, string[i]))
+    return position_list
+
 #CALCULATING NUMBER OF TEST CASES
 
 #board configurations
@@ -80,7 +87,8 @@ def combination_list(k, n = 10):
 
 #list of board configurations
 board_configuration_list = combination_list(3) + combination_list(4) + combination_list(5)
+#list of test cases
+test_case_list = position_generator(board_configuration_list)
 
-#creating testing df
-testing_df = pd.DataFrame(board_configuration_list)
-print(testing_df)
+#generating the dataframe
+testing_df = pd.DataFrame(test_case_list, columns = ['combo', 'latest_position'])
