@@ -90,11 +90,12 @@ def is_digit_in_integer(digit,integer):
 
 #print(5*combination_num(9,5) + 4*combination_num(9,4) + 3*combination_num(9,3))
 #1,386 test cases
+    #Only 1,098 need to be tested as 288 are impossible
 
 #POPULATING PANDAS TABLE WITH ALL TEST CASES
 
 #list of board configurations
-board_configuration_list = combination_list(3) #+ combination_list(4) + combination_list(5)
+board_configuration_list = combination_list(3) + combination_list(4) + combination_list(5)
 #list of test cases
 test_case_list = position_generator(board_configuration_list)
 
@@ -122,6 +123,26 @@ testing_df["is_win_369"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) an
 testing_df["is_win_159"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_5"] == True) and (x["is_pos_9"] == True), axis =1)
 testing_df["is_win_357"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) and (x["is_pos_5"] == True) and (x["is_pos_7"] == True), axis =1)
 
+#I want to pull out impossible situations, in which the game was won but not in the latest move.
+#The is_game_won function will work incorrectly in these cases, but if it is working correctly, these cases will never occur.
+
+testing_df["is_impossible"] = testing_df.apply(lambda x: \
+((x["is_win_123"] == True) and x["latest_pos"] not in [1,2,3]) or \
+((x["is_win_456"] == True) and x["latest_pos"] not in [4,5,6]) or \
+((x["is_win_789"] == True) and x["latest_pos"] not in [7,8,9]) or \
+((x["is_win_147"] == True) and x["latest_pos"] not in [1,4,7]) or \
+((x["is_win_258"] == True) and x["latest_pos"] not in [2,5,8]) or \
+((x["is_win_369"] == True) and x["latest_pos"] not in [3,6,9]) or \
+((x["is_win_159"] == True) and x["latest_pos"] not in [1,5,9]) or \
+((x["is_win_357"] == True) and x["latest_pos"] not in [3,5,7]),
+axis =1)
+
+#possibility_table = testing_df.groupby("is_impossible").combo.count()
+#print(possibility_table)
+
+testing_df = testing_df[testing_df.is_impossible == False].reset_index(drop = True)
+
+#Is there a win on the board?
 testing_df["is_valid_win"] = testing_df.apply(lambda x: \
 (x["is_win_123"] == True) or \
 (x["is_win_456"] == True) or \
@@ -134,6 +155,9 @@ testing_df["is_valid_win"] = testing_df.apply(lambda x: \
 axis =1)
 
 #Dropping extranous columns. These may be helpful when investigating errors but are unneeded for the moment.
-testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357", "combo"], inplace = True)
+testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357", "combo","is_impossible"], inplace = True)
 
-print(testing_df.head(10))
+print(testing_df)
+
+#print(testing_df.head())
+#print(testing_df.tail())
