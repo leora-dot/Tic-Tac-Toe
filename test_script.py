@@ -13,7 +13,7 @@
     #Because the bulk of the possible cases come from the case in which five board spots are filled, it may make sense not to add these configurations in when I'm just building the functions.
     #That case can be added later in full or in part. But no need to wait through the processing times until the end.
 
-#importing functions needed
+#Importing Libraries
 
 import random
 import pandas as pd
@@ -24,6 +24,7 @@ import math
 #for permutation
 import itertools
 
+# Importing from Game Script
 from game_script import \
 position_to_index, \
 show_board, \
@@ -35,7 +36,7 @@ is_game_won, \
 opening_sequence, \
 board_df
 
-#Functions go here
+#FUNCTIONS FOR GENERATING TEST CASES GO HERE
 
 #Factorial Function (just a wrapper)
 def factorial(val):
@@ -95,7 +96,7 @@ def is_digit_in_integer(digit,integer):
 #POPULATING PANDAS TABLE WITH ALL TEST CASES
 
 #list of board configurations
-board_configuration_list = combination_list(3) + combination_list(4) + combination_list(5)
+board_configuration_list = combination_list(3)# + combination_list(4) + combination_list(5)
 #list of test cases
 test_case_list = position_generator(board_configuration_list)
 
@@ -157,7 +158,9 @@ axis =1)
 #Dropping extranous columns. These may be helpful when investigating errors but are unneeded for the moment.
 testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357", "combo","is_impossible"], inplace = True)
 
-print(testing_df)
-
 #print(testing_df.head())
 #print(testing_df.tail())
+
+# Now we want to start getting from this data table into game results.
+
+#Functions go here

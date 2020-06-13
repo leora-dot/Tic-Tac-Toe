@@ -61,18 +61,18 @@ def show_board():
     plt.clf()
 
 # This function adds a character to the current board
-def update_board(pos,char):
+def update_board(pos,symbol):
     #Bringing in global parameters
     global center_symbol
     global turn_counter
     global is_board_full
     #Updating the position column
-    board_df.loc[board_df.position == pos, "symbol"] = char
+    board_df.loc[board_df.position == pos, "symbol"] = symbol
     #Updating the is_available column
     board_df["is_available"] = board_df.symbol.isna()
     #Update center square if applicable
     if pos == 5:
-        center_symbol = char
+        center_symbol = symbol
     #Evaulate whether the board is full
     if turn_counter == 8:
         is_board_full = True
