@@ -74,6 +74,27 @@ def is_digit_in_integer(digit,integer):
             return True
     return False
 
+#Generates board based on row in testing dataframe
+def row_to_board(row_index, symbol = "x"):
+    if testing_df.is_pos_1.iloc[row_index]:
+        update_board(1,symbol)
+    if testing_df.is_pos_2.iloc[row_index]:
+        update_board(2,symbol)
+    if testing_df.is_pos_3.iloc[row_index]:
+        update_board(3,symbol)
+    if testing_df.is_pos_4.iloc[row_index]:
+        update_board(4,symbol)
+    if testing_df.is_pos_5.iloc[row_index]:
+        update_board(5,symbol)
+    if testing_df.is_pos_6.iloc[row_index]:
+        update_board(6,symbol)
+    if testing_df.is_pos_7.iloc[row_index]:
+        update_board(7,symbol)
+    if testing_df.is_pos_8.iloc[row_index]:
+        update_board(8,symbol)
+    if testing_df.is_pos_9.iloc[row_index]:
+        update_board(9,symbol)
+
 #CALCULATING NUMBER OF TEST CASES
 
 #board configurations
@@ -161,6 +182,8 @@ testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147
 #print(testing_df.head())
 #print(testing_df.tail())
 
-# Now we want to start getting from this data table into game results.
+##GENERATING GAME RESULTS BASED ON THE TEST CASES
 
-#Functions go here
+row_to_board(0)
+
+print(board_df)
