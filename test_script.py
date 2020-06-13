@@ -101,7 +101,7 @@ test_case_list = position_generator(board_configuration_list)
 #generating the dataframe
 testing_df = pd.DataFrame(test_case_list, columns = ['combo', 'latest_pos'])
 
-#populating columns for each symbol
+#New Columns Show Whether Each Position is Filled
 testing_df["is_pos_1"] = testing_df.apply(lambda x: is_digit_in_integer(1,x["combo"]), axis =1)
 testing_df["is_pos_2"] = testing_df.apply(lambda x: is_digit_in_integer(2,x["combo"]), axis =1)
 testing_df["is_pos_3"] = testing_df.apply(lambda x: is_digit_in_integer(3,x["combo"]), axis =1)
@@ -112,5 +112,28 @@ testing_df["is_pos_7"] = testing_df.apply(lambda x: is_digit_in_integer(7,x["com
 testing_df["is_pos_8"] = testing_df.apply(lambda x: is_digit_in_integer(8,x["combo"]), axis =1)
 testing_df["is_pos_9"] = testing_df.apply(lambda x: is_digit_in_integer(9,x["combo"]), axis =1)
 
+#New Columns Test for Each Kind of Win, showing whether that board combo should have that win
+testing_df["is_win_123"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_2"] == True) and (x["is_pos_3"] == True), axis =1)
+testing_df["is_win_456"] = testing_df.apply(lambda x: (x["is_pos_4"] == True) and (x["is_pos_5"] == True) and (x["is_pos_6"] == True), axis =1)
+testing_df["is_win_789"] = testing_df.apply(lambda x: (x["is_pos_7"] == True) and (x["is_pos_8"] == True) and (x["is_pos_9"] == True), axis =1)
+testing_df["is_win_147"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_4"] == True) and (x["is_pos_7"] == True), axis =1)
+testing_df["is_win_258"] = testing_df.apply(lambda x: (x["is_pos_2"] == True) and (x["is_pos_5"] == True) and (x["is_pos_8"] == True), axis =1)
+testing_df["is_win_369"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) and (x["is_pos_6"] == True) and (x["is_pos_9"] == True), axis =1)
+testing_df["is_win_159"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_5"] == True) and (x["is_pos_9"] == True), axis =1)
+testing_df["is_win_357"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) and (x["is_pos_5"] == True) and (x["is_pos_7"] == True), axis =1)
+
+testing_df["is_valid_win"] = testing_df.apply(lambda x: \
+(x["is_win_123"] == True) or \
+(x["is_win_456"] == True) or \
+(x["is_win_789"] == True) or \
+(x["is_win_147"] == True) or \
+(x["is_win_258"] == True) or \
+(x["is_win_369"] == True) or \
+(x["is_win_159"] == True) or \
+(x["is_win_357"] == True),
+axis =1)
+
+#Dropping extranous columns. These may be helpful when investigating errors but are unneeded for the moment.
+testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357", "combo"], inplace = True)
+
 print(testing_df.head(10))
-print(testing_df.tail(10))
