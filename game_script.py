@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 # OUTSTANDING WORK?
     # Why do we sometimes get two figures for the board?
     # Turn function terminates if non-digit character is entered.
+    # Add is_main function
     # Testing is_game_won function:
         #do we catch all winning combinations?
         #do we correctly recognize non-winning combinations?
@@ -82,6 +83,10 @@ def load_empty_board():
     board_df = pd.read_csv('board.csv')
     return board_df
 
+def set_turn_counter(x):
+    turn_counter = 0
+    return turn_counter
+
 #This function checks if a move is valid:
 def is_valid_move(pos):
     if pos in list(range(1,10)):
@@ -145,9 +150,11 @@ def turn(turn_val):
 
 #This function checks if the game has been won, based on the position and symbol marked in the latest turn. I haven't tested it yet!
 def is_game_won(turn_position,turn_symbol):
+    print("running is_game_won")
     #If less than five turns have been played, it is impossible for either player to have won.
     #Note, the function uses 4 because the turn counter starts at zero.
     if turn_counter < 4:
+        print("not enough turns for a win")
         return False
     #For non-corner, non-center positions, the function checks the relevant row and column.
     elif turn_position == 2:
@@ -229,7 +236,8 @@ is_board_full = False
 #No player has won yet
 winner = None
 #Set our turn counter at zero
-turn_counter = 0
+turn_counter = set_turn_counter(0)
+
 #Select a random number to chose who goes first
 rand_val = random.randint(0,1)
 
@@ -246,5 +254,5 @@ player_o_name = "Player o"
 #Opening sequence can be commented out. It is just text.
 #opening_sequence()
 #Looping through turns until we have a winner or a full board.
-#while (winner == None) and (is_board_full == False):
-    #turn(turn_counter)
+while (winner == None) and (is_board_full == False):
+    turn(turn_counter)
