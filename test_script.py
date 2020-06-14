@@ -13,6 +13,10 @@
     #Because the bulk of the possible cases come from the case in which five board spots are filled, it may make sense not to add these configurations in when I'm just building the functions.
     #That case can be added later in full or in part. But no need to wait through the processing times until the end.
 
+#FIX BUG PLAN
+#WHAT IS WRONG
+#WHAT AM I GOING TO TRY
+
 #Importing Libraries
 
 import random
@@ -33,8 +37,8 @@ is_valid_move, \
 is_symbol, \
 turn, \
 is_game_won, \
-opening_sequence, \
-board_df
+opening_sequence#, \
+#board_df
 
 #FUNCTIONS FOR GENERATING TEST CASES GO HERE
 
@@ -79,7 +83,7 @@ def is_digit_in_integer(digit,integer):
 #something weird is happening here. If I bring in clean board, it never gets updated. If I don't, it can't be cleared between rows.
 def row_to_board(row_index, symbol = "x"):
     #start from clean board
-    global board_df
+    #global board_df
     #board_df = pd.read_csv('board.csv')
     #update board based on row
     if testing_df.is_pos_1.iloc[row_index]:
@@ -103,7 +107,6 @@ def row_to_board(row_index, symbol = "x"):
 
 #Generates adds the result of the is_game_won function to the testing df
 def game_result_generator(symbol = "x"):
-    global board_df
     testing_df["is_actual_win"] = ""
     for row_index in range(testing_df.is_valid_win.count()):
         #create the board
@@ -203,11 +206,11 @@ testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147
 
 testing_df = testing_df.head(3)
 
-turn_counter = 5
+#turn_counter = 5
 
 game_result_generator()
 
-print(testing_df)
+#print(testing_df)
 
 #result_table = testing_df.groupby("is_actual_win","is_valid_win").latest_pos.count()
 #print(result_table)
