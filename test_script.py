@@ -75,6 +75,8 @@ def is_digit_in_integer(digit,integer):
     return False
 
 #Generates board based on row in testing dataframe
+
+#something weird is happening here. If I bring in clean board, it never gets updated. If I don't, it can't be cleared between rows.
 def row_to_board(row_index, symbol = "x"):
     #start from clean board
     global board_df
@@ -106,10 +108,9 @@ def game_result_generator(symbol = "x"):
     for row_index in range(testing_df.is_valid_win.count()):
         #create the board
         row_to_board(row_index, symbol)
-        print(board_df)
-        #game_result = is_game_won(testing_df.latest_pos.iloc[row_index],symbol)
-        #post result to table
-        #testing_df.at[row_index,"is_actual_win"] = game_result
+        #generate game result - this isn't working right.
+        game_result = is_game_won(testing_df.latest_pos.iloc[row_index],symbol)
+        testing_df.at[row_index,"is_actual_win"] = game_result
 
 #CALCULATING NUMBER OF TEST CASES
 
@@ -200,11 +201,13 @@ testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147
 
 ##GENERATING GAME RESULTS BASED ON THE TEST CASES
 
-#Cutting off DF just for writing FUNCTIONS
-testing_df = testing_df.head(5)
+testing_df = testing_df.head(3)
 
 turn_counter = 5
+
 game_result_generator()
 
-#result_table = testing_df.groupby("is_actual_win").is_valid_win.count()
+print(testing_df)
+
+#result_table = testing_df.groupby("is_actual_win","is_valid_win").latest_pos.count()
 #print(result_table)

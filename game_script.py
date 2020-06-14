@@ -66,7 +66,6 @@ def update_board(pos,symbol):
     global center_symbol
     global turn_counter
     global is_board_full
-    global board_df
     #Updating the position column
     board_df.loc[board_df.position == pos, "symbol"] = symbol
     #Updating the is_available column
