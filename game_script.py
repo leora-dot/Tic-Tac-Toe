@@ -78,6 +78,7 @@ def update_board(pos,symbol):
         is_board_full = True
 
 def load_empty_board():
+    global board_df
     board_df = pd.read_csv('board.csv')
 
 #This function checks if a move is valid:
@@ -246,3 +247,6 @@ player_o_name = "Player o"
 #Looping through turns until we have a winner or a full board.
 #while (winner == None) and (is_board_full == False):
     #turn(turn_counter)
+
+load_empty_board
+print(board_df)

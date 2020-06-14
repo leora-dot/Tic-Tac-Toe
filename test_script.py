@@ -13,10 +13,6 @@
     #Because the bulk of the possible cases come from the case in which five board spots are filled, it may make sense not to add these configurations in when I'm just building the functions.
     #That case can be added later in full or in part. But no need to wait through the processing times until the end.
 
-#FIX BUG PLAN
-#WHAT IS WRONG
-#WHAT AM I GOING TO TRY
-
 #Importing Libraries
 
 import random
@@ -37,7 +33,8 @@ is_valid_move, \
 is_symbol, \
 turn, \
 is_game_won, \
-opening_sequence#, \
+opening_sequence, \
+load_empty_board#, \
 #board_df
 
 #FUNCTIONS FOR GENERATING TEST CASES GO HERE
@@ -80,12 +77,13 @@ def is_digit_in_integer(digit,integer):
 
 #Generates board based on row in testing dataframe
 
-#something weird is happening here. If I bring in clean board, it never gets updated. If I don't, it can't be cleared between rows.
 def row_to_board(row_index, symbol = "x"):
-    #start from clean board
-    #global board_df
-    #board_df = pd.read_csv('board.csv')
-    #update board based on row
+    #Start from an empty board
+    global board_df
+    load_empty_board()
+    print("This board should be empty")
+    print(board_df)
+    #Update the board based on the positions described in testing_df
     if testing_df.is_pos_1.iloc[row_index]:
         update_board(1,symbol)
     if testing_df.is_pos_2.iloc[row_index]:
@@ -112,8 +110,8 @@ def game_result_generator(symbol = "x"):
         #create the board
         row_to_board(row_index, symbol)
         #generate game result - this isn't working right.
-        game_result = is_game_won(testing_df.latest_pos.iloc[row_index],symbol)
-        testing_df.at[row_index,"is_actual_win"] = game_result
+        #game_result = is_game_won(testing_df.latest_pos.iloc[row_index],symbol)
+        #testing_df.at[row_index,"is_actual_win"] = game_result
 
 #CALCULATING NUMBER OF TEST CASES
 
@@ -204,13 +202,16 @@ testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147
 
 ##GENERATING GAME RESULTS BASED ON THE TEST CASES
 
-testing_df = testing_df.head(3)
+testing_df = testing_df.head(5)
 
 #turn_counter = 5
 
-game_result_generator()
+#game_result_generator()
 
 #print(testing_df)
 
 #result_table = testing_df.groupby("is_actual_win","is_valid_win").latest_pos.count()
 #print(result_table)
+
+load_empty_board
+print(board_df)
