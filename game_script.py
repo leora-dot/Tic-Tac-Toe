@@ -77,6 +77,7 @@ def update_board(pos,symbol):
     #Evaulate whether the board is full
     if turn_counter == 8:
         is_board_full = True
+    print(turn_counter)
 
 def load_empty_board():
     global board_df
@@ -84,7 +85,7 @@ def load_empty_board():
     return board_df
 
 def set_turn_counter(x):
-    turn_counter = 0
+    turn_counter = x
     return turn_counter
 
 #This function checks if a move is valid:
@@ -254,5 +255,5 @@ player_o_name = "Player o"
 #Opening sequence can be commented out. It is just text.
 #opening_sequence()
 #Looping through turns until we have a winner or a full board.
-while (winner == None) and (is_board_full == False):
-    turn(turn_counter)
+#while (winner == None) and (is_board_full == False):
+    #turn(turn_counter)
