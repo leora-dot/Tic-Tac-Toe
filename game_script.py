@@ -77,6 +77,9 @@ def update_board(pos,symbol):
     if turn_counter == 8:
         is_board_full = True
 
+def load_empty_board():
+    board_df = pd.read_csv('board.csv')
+
 #This function checks if a move is valid:
 def is_valid_move(pos):
     if pos in list(range(1,10)):
@@ -227,6 +230,8 @@ winner = None
 turn_counter = 0
 #Select a random number to chose who goes first
 rand_val = random.randint(0,1)
+
+load_empty_board()
 
 #Generic names will be overwritten if the opening sequence function is run.
 #These will be used just when the opening sequence is disabled for testing other areas of the game.
