@@ -7,9 +7,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # OUTSTANDING WORK?
-    # Why do we sometimes get two figures for the board?
+    # Why do we sometimes get two figures for the board
+        #not on first move?
     # Turn function terminates if non-digit character is entered.
     # Add is_main function
+    # figure out how to remove that test_is_game_won.csv from the repository / github
     # Testing is_game_won function:
         #do we catch all winning combinations?
         #do we correctly recognize non-winning combinations?
@@ -67,6 +69,9 @@ def update_board(pos,symbol):
     global center_symbol
     global turn_counter
     global is_board_full
+    #Some printing:
+    print("running update_board, with turn counter:")
+    print(turn_counter)
     #Updating the position column
     board_df.loc[board_df.position == pos, "symbol"] = symbol
     #Updating the is_available column
@@ -77,7 +82,6 @@ def update_board(pos,symbol):
     #Evaulate whether the board is full
     if turn_counter == 8:
         is_board_full = True
-    print(turn_counter)
 
 def load_empty_board():
     global board_df
@@ -151,11 +155,11 @@ def turn(turn_val):
 
 #This function checks if the game has been won, based on the position and symbol marked in the latest turn. I haven't tested it yet!
 def is_game_won(turn_position,turn_symbol):
-    print("running is_game_won")
+    print("running is_game_won with turn_counter:")
+    print(turn_counter)
     #If less than five turns have been played, it is impossible for either player to have won.
     #Note, the function uses 4 because the turn counter starts at zero.
     if turn_counter < 4:
-        print("not enough turns for a win")
         return False
     #For non-corner, non-center positions, the function checks the relevant row and column.
     elif turn_position == 2:

@@ -34,7 +34,8 @@ is_symbol, \
 turn, \
 is_game_won, \
 opening_sequence, \
-load_empty_board
+load_empty_board, \
+set_turn_counter
 
 #FUNCTIONS FOR GENERATING TEST CASES GO HERE
 
@@ -100,15 +101,20 @@ def row_to_board(row_index, symbol = "x"):
     if testing_df.is_pos_9.iloc[row_index]:
         update_board(9,symbol)
 
-#Generates adds the result of the is_game_won function to the testing df
-def game_result_generator(symbol = "x"):
+#Generates adds the result of the is_game_won function to the testing df.
+#By default, assumes five turns have been played.
+def game_result_generator(symbol = "x", turn_count = 5):
+    global turn_counter
+    turn_counter = set_turn_counter(turn_count)
+    #Creating new column for df
     testing_df["is_actual_win"] = ""
+    #Adding game results based on each row in counter.
     for row_index in range(testing_df.is_valid_win.count()):
         #create the board
         row_to_board(row_index, symbol)
         #generate game result - this isn't working right.
-        #game_result = is_game_won(testing_df.latest_pos.iloc[row_index],symbol)
-        #testing_df.at[row_index,"is_actual_win"] = game_result
+        game_result = is_game_won(testing_df.latest_pos.iloc[row_index],symbol)
+        testing_df.at[row_index,"is_actual_win"] = game_result
 
 #CALCULATING NUMBER OF TEST CASES
 
@@ -199,13 +205,18 @@ testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147
 
 ##GENERATING GAME RESULTS BASED ON THE TEST CASES
 
-testing_df = testing_df.head(3)
+turn_counter = set_turn_counter(5)
+print("You just set the turn counter to:")
+print(turn_counter)
 
-#turn_counter = 5
+testing_df = testing_df.head(1)
 
 game_result_generator()
 
-print(testing_df)
+print("After running, game_result_generator, turn_counter is:")
+print(turn_counter)
+
+#print(testing_df)
 
 #result_table = testing_df.groupby("is_actual_win","is_valid_win").latest_pos.count()
 #print(result_table)
