@@ -138,6 +138,11 @@ def latest_position_summary():
     print("\nLatest Position Summary:\n",summary)
     return summary
 
+def valid_win_location_summary():
+    summary = invalid_df.valid_win_location.value_counts()
+    print("\nValid Win Location Summary:\n", summary)
+    return summary
+
 def invalid_result_generator():
     invalid = testing_df[testing_df.is_result_valid == False].reset_index(drop = True)
     invalid["error_type"] = invalid.is_actual_win == True
@@ -229,8 +234,6 @@ testing_df["is_valid_win"] = testing_df.apply(lambda x: \
 (x["is_win_357"] == True),
 axis =1)
 
-#Which valid win is on the board
-
 testing_df["valid_win_location"] = ""
 
 for row_index in range(testing_df.is_valid_win.count()):
@@ -253,15 +256,22 @@ for row_index in range(testing_df.is_valid_win.count()):
         win = 357
     testing_df.at[row_index,"valid_win_location"] = win
 
-#drop_is_pos_columns(testing_df)
-#drop_win_combination_columns(testing_df)
 #print(testing_df)
 
 ##GENERATING GAME RESULTS BASED ON THE TEST CASES
 
-#game_result_generator()
-#game_result_validator()
+game_result_generator()
+game_result_validator()
 
 #INVESTIGATING ERRORS
 
-#invalid_df = invalid_result_generator()
+invalid_df = invalid_result_generator()
+drop_is_pos_columns(invalid_df)
+drop_win_combination_columns(invalid_df)
+
+print(invalid_df)
+
+#result_validity_summary()
+#error_type_summary()
+#latest_position_summary()
+#valid_win_location_summary()
