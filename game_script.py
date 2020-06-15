@@ -67,7 +67,6 @@ def show_board():
 def update_board(pos,symbol):
     #Bringing in global parameters
     global center_symbol
-    #global turn_counter
     global is_board_full
     #Updating the position column
     board_df.loc[board_df.position == pos, "symbol"] = symbol
@@ -152,60 +151,45 @@ def turn(turn_val):
 
 #This function checks if the game has been won, based on the position and symbol marked in the latest turn. I haven't tested it yet!
 def is_game_won(turn_position,turn_symbol, current_turn):
-    print("running is_game_won with turn_counter:")
-    print(turn_counter)
     #If less than five turns have been played, it is impossible for either player to have won.
     #Note, the function uses 4 because the turn counter starts at zero.
     if current_turn < 4:
-        print("not enough turns to win")
         return False
     #For non-corner, non-center positions, the function checks the relevant row and column.
     elif turn_position == 2:
-        if (is_symbol(turn_symbol, [1,3])) or (is_symbol(turn_symbol, [5,8])):
-            return True
+        return (is_symbol(turn_symbol, [1,3])) or (is_symbol(turn_symbol, [5,8]))
     elif turn_position == 4:
-        if (is_symbol(turn_symbol, [5,6])) or (is_symbol(turn_symbol, [1,7])):
-            return True
+        return (is_symbol(turn_symbol, [5,6])) or (is_symbol(turn_symbol, [1,7]))
     elif turn_position == 6:
-        if (is_symbol(turn_symbol, [4,5])) or (is_symbol(turn_symbol, [3,9])):
-            return True
+        return (is_symbol(turn_symbol, [4,5])) or (is_symbol(turn_symbol, [3,9]))
     elif turn_position == 8:
-        if (is_symbol(turn_symbol, [7,9])) or (is_symbol(turn_symbol, [2,5])):
-            return True
+        return (is_symbol(turn_symbol, [7,9])) or (is_symbol(turn_symbol, [2,5]))
     #For corner positions, the function checks row, columns, and diagnols if the symbol played in the latest turn has the center spot.
     #If the symbol does not hold the center spot, only the row and column are checked.
     elif turn_position == 1:
         if center_symbol == turn_symbol:
-            if (is_symbol(turn_symbol, [2,3])) or (is_symbol(turn_symbol, [4,7])) or (is_symbol(turn_symbol,[9])):
-                return True
-        elif (is_symbol(turn_symbol, [2,3])) or (is_symbol(turn_symbol, [4,7])):
-            return True
+            return (is_symbol(turn_symbol, [2,3])) or (is_symbol(turn_symbol, [4,7])) or (is_symbol(turn_symbol,[9]))
+        else:
+            return (is_symbol(turn_symbol, [2,3])) or (is_symbol(turn_symbol, [4,7]))
     elif turn_position == 3:
         if center_symbol == turn_symbol:
-            if (is_symbol(turn_symbol, [1,2])) or (is_symbol(turn_symbol, [6,9])) or (is_symbol(turn_symbol,[7])):
-                return True
-        elif (is_symbol(turn_symbol, [1,2])) or (is_symbol(turn_symbol, [6,9])):
-            return True
+            return (is_symbol(turn_symbol, [1,2])) or (is_symbol(turn_symbol, [6,9])) or (is_symbol(turn_symbol,[7]))
+        else:
+            return (is_symbol(turn_symbol, [1,2])) or (is_symbol(turn_symbol, [6,9]))
     elif turn_position == 7:
         if center_symbol == turn_symbol:
-            if (is_symbol(turn_symbol, [8,9])) or (is_symbol(turn_symbol, [1,4])) or (is_symbol(turn_symbol,[3])):
-                return True
-        elif (is_symbol(turn_symbol, [8,9])) or (is_symbol(turn_symbol, [1,4])):
-            return True
+            return (is_symbol(turn_symbol, [8,9])) or (is_symbol(turn_symbol, [1,4])) or (is_symbol(turn_symbol,[3]))
+        else:
+            return (is_symbol(turn_symbol, [8,9])) or (is_symbol(turn_symbol, [1,4]))
     elif turn_position == 9:
         if center_symbol == turn_symbol:
-            if (is_symbol(turn_symbol, [7,8])) or (is_symbol(turn_symbol, [3,6])) or (is_symbol(turn_symbol,[1])):
-                return True
-        elif (is_symbol(turn_symbol, [7,8])) or (is_symbol(turn_symbol, [3,6])):
-            return True
+            return (is_symbol(turn_symbol, [7,8])) or (is_symbol(turn_symbol, [3,6])) or (is_symbol(turn_symbol,[1]))
+        else:
+            return (is_symbol(turn_symbol, [7,8])) or (is_symbol(turn_symbol, [3,6]))
     #If the player has just played the center spot, we check all the possible winning options.
-    #This shouldn't happen too often since the center spot is usually claimed in the first five turns.
+    #This shouldn't happen too often since the center spot is usually claimed in the first five turns, when the function returns false based on turn count.
     elif turn_position == 5:
-        if (is_symbol(turn_symbol, [4,6])) or (is_symbol(turn_symbol, [2,8])) or (is_symbol(turn_symbol,[1,9])) or (is_symbol(turn_symbol,[3,7])):
-            return True
-    #If all our checks haven't found a winning combination, return False
-    else:
-        return False
+        return (is_symbol(turn_symbol, [4,6])) or (is_symbol(turn_symbol, [2,8])) or (is_symbol(turn_symbol,[1,9])) or (is_symbol(turn_symbol,[3,7]))
 
 def opening_sequence():
     #Bringing in global variables
