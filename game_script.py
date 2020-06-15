@@ -149,6 +149,7 @@ def turn(turn_val):
 def is_game_won(turn_position,turn_symbol, current_turn):
     #If less than five turns have been played, it is impossible for either player to have won.
     #Note, the function uses 4 because the turn counter starts at zero.
+    is_center_symbol_equal_turn_symbol = is_symbol(turn_symbol,[turn_position])
     if current_turn < 4:
         return False
     #For non-corner, non-center positions, the function checks the relevant row and column.
@@ -162,7 +163,6 @@ def is_game_won(turn_position,turn_symbol, current_turn):
         return (is_symbol(turn_symbol, [7,9])) or (is_symbol(turn_symbol, [2,5]))
     #For corner positions, the function checks row, columns, and diagnols if the symbol played in the latest turn has the center spot.
     #If the symbol does not hold the center spot, only the row and column are checked.
-    is_center_symbol_equal_turn_symbol = is_symbol(turn_symbol,[turn_position])
     #Checking for wins
     elif turn_position == 1:
         if is_center_symbol_equal_turn_symbol:

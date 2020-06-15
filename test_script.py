@@ -195,7 +195,7 @@ def valid_win_location_summary():
 #GENERATING TESTING DF
 
 #list of board configurations
-board_configuration_list = combination_list(3) #+ combination_list(4) + combination_list(5)
+board_configuration_list = combination_list(3) + combination_list(4) + combination_list(5)
 #list of test cases
 test_case_list = position_generator(board_configuration_list)
 
@@ -283,11 +283,11 @@ game_result_validator()
 
 invalid_df = invalid_result_generator()
 
-drop_is_pos_columns(invalid_df)
-drop_win_combination_columns(invalid_df)
-print(invalid_df)
+#drop_is_pos_columns(invalid_df)
+#drop_win_combination_columns(invalid_df)
+#print(invalid_df)
 
-#result_validity_summary()
+result_validity_summary()
 #error_type_summary()
 #latest_position_summary()
 #valid_win_location_summary()
