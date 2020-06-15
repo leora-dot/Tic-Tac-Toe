@@ -196,11 +196,8 @@ testing_df["is_valid_win"] = testing_df.apply(lambda x: \
 (x["is_win_357"] == True),
 axis =1)
 
-#Dropping extranous columns. These may be helpful when investigating errors but are unneeded for the moment.
-testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357", "combo","is_impossible"], inplace = True)
-
-#print(testing_df.head())
-#print(testing_df.tail())
+#Dropping duplicative columns, which will not be needed in testing
+testing_df.drop(columns = ["combo","is_impossible"], inplace = True)
 
 ##GENERATING GAME RESULTS BASED ON THE TEST CASES
 
@@ -210,24 +207,23 @@ testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147
 game_result_generator()
 game_result_validator()
 
-#Dropping extranous columns. These may be helpful when investigating errors but are unneeded for the moment.
-
-testing_df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_pos_5", "is_pos_6", "is_pos_7", "is_pos_8", "is_pos_9"], inplace = True)
-
-print(testing_df)
-
 #RESULTS SUMMARY SHOWS NUMBER OF SCENARIOS WITH VALID & INVALID RESULTS
 results_summary = testing_df.is_result_valid.value_counts()
-print(results_summary)
+print("\n Results Summary:\n", results_summary)
 
 #INVESTIGATING ERRORS
 
 #table with just the invalid cases
 invalid_df = testing_df[testing_df.is_result_valid == False].reset_index(drop = True)
-#print(invalid_df)
+
+#Hiding win combination columns
+invalid_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357"], inplace = True)
+
+#Hiding position columns
+invalid_df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_pos_5", "is_pos_6", "is_pos_7", "is_pos_8", "is_pos_9"], inplace = True)
 
 #invalid cases by error type
 invalid_df["error_type"] = invalid_df.is_actual_win == True
 error_type_summary = invalid_df.error_type.value_counts()
 
-print(error_type_summary)
+print("\nError Type Summary:\n", error_type_summary)
