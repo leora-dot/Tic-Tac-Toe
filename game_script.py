@@ -67,11 +67,8 @@ def show_board():
 def update_board(pos,symbol):
     #Bringing in global parameters
     global center_symbol
-    global turn_counter
+    #global turn_counter
     global is_board_full
-    #Some printing:
-    print("running update_board, with turn counter:")
-    print(turn_counter)
     #Updating the position column
     board_df.loc[board_df.position == pos, "symbol"] = symbol
     #Updating the is_available column
@@ -138,7 +135,7 @@ def turn(turn_val):
         else:
             print(str(requested_pos)+" isn't a valid empty spot. \nThe numbers associated with each available spot are shown on the board.")
     #If the game has been won, declare a winner, print a congratulations, and show the final board
-    if is_game_won(requested_pos,symbol):
+    if is_game_won(requested_pos,symbol,turn_counter):
         winner = player
         print(player + " wins! Congratulations")
         show_board()
@@ -154,12 +151,13 @@ def turn(turn_val):
         return
 
 #This function checks if the game has been won, based on the position and symbol marked in the latest turn. I haven't tested it yet!
-def is_game_won(turn_position,turn_symbol):
+def is_game_won(turn_position,turn_symbol, current_turn):
     print("running is_game_won with turn_counter:")
     print(turn_counter)
     #If less than five turns have been played, it is impossible for either player to have won.
     #Note, the function uses 4 because the turn counter starts at zero.
-    if turn_counter < 4:
+    if current_turn < 4:
+        print("not enough turns to win")
         return False
     #For non-corner, non-center positions, the function checks the relevant row and column.
     elif turn_position == 2:
