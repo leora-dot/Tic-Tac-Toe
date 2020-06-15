@@ -129,7 +129,7 @@ def result_validity_summary():
     return summary
 
 def error_type_summary():
-    summary = invalid_df.error_type.value_counts()
+    summary = invalid_df.groupby(["is_valid_win", "is_actual_win"]).latest_pos.count().reset_index()
     print("\nError Type Summary:\n", summary)
     return summary
 
@@ -144,8 +144,8 @@ def valid_win_location_summary():
     return summary
 
 def invalid_result_generator():
+    #selecting rows with invalid results
     invalid = testing_df[testing_df.is_result_valid == False].reset_index(drop = True)
-    invalid["error_type"] = invalid.is_actual_win == True
     invalid.drop(columns = ["is_result_valid"], inplace = True)
     return invalid
 
@@ -266,12 +266,12 @@ game_result_validator()
 #INVESTIGATING ERRORS
 
 invalid_df = invalid_result_generator()
-drop_is_pos_columns(invalid_df)
-drop_win_combination_columns(invalid_df)
 
-print(invalid_df)
+#drop_is_pos_columns(invalid_df)
+#drop_win_combination_columns(invalid_df)
+#print(invalid_df)
 
 #result_validity_summary()
-#error_type_summary()
+error_type_summary()
 #latest_position_summary()
 #valid_win_location_summary()
