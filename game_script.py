@@ -92,11 +92,12 @@ def is_valid_move(pos):
         return False
 
 #This function checks whether every position in a list is marked with a given symbol
+#Because we are looping through a list, where the symbol may match one item but not others, the =! > False is needed. (== > True would not work.)
 def is_symbol(symbol,pos_list):
     for pos in pos_list:
-        if board_df.symbol.iloc[position_to_index(pos)] == symbol:
-            return True
-    return False
+        if board_df.symbol.iloc[position_to_index(pos)] != symbol:
+            return False
+    return True
 
 #this function processes each turn.
 #Turn_val will always be turn_counter, but it has its own name here since the turn_counter is used globally.

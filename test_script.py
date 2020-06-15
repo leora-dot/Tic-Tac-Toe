@@ -159,13 +159,13 @@ def result_validity_summary():
     return summary
 
 def error_type_summary():
-    summary = invalid_df.groupby(["is_valid_win", "is_actual_win"]).latest_pos.count().reset_index()
+    summary = testing_df.groupby(["is_valid_win", "is_actual_win"]).latest_pos.count().reset_index()
     print("\nError Type Summary:\n", summary)
     return summary
 
 def latest_position_summary():
     summary = invalid_df.latest_pos.value_counts()
-    #summary.sort_values(by =["latest_pos"], inplace = True)
+    summary.sort_values(inplace = True)
     print("\nLatest Position Summary:\n",summary)
     return summary
 
@@ -289,6 +289,6 @@ drop_win_combination_columns(invalid_df)
 print(invalid_df)
 
 result_validity_summary()
-#error_type_summary()
+error_type_summary()
 #latest_position_summary()
 #valid_win_location_summary()
