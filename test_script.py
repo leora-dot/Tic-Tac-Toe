@@ -267,11 +267,11 @@ game_result_validator()
 
 invalid_df = invalid_result_generator()
 
-#drop_is_pos_columns(invalid_df)
-#drop_win_combination_columns(invalid_df)
-#print(invalid_df)
+drop_is_pos_columns(invalid_df)
+drop_win_combination_columns(invalid_df)
+print(invalid_df)
 
 #result_validity_summary()
-error_type_summary()
+#error_type_summary()
 #latest_position_summary()
 #valid_win_location_summary()
