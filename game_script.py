@@ -66,15 +66,11 @@ def show_board():
 # This function adds a character to the current board
 def update_board(pos,symbol):
     #Bringing in global parameters
-    global center_symbol
     global is_board_full
     #Updating the position column
     board_df.loc[board_df.position == pos, "symbol"] = symbol
     #Updating the is_available column
     board_df["is_available"] = board_df.symbol.isna()
-    #Update center square if applicable
-    if pos == 5:
-        center_symbol = symbol
     #Evaulate whether the board is full
     if turn_counter == 8:
         is_board_full = True
@@ -166,23 +162,25 @@ def is_game_won(turn_position,turn_symbol, current_turn):
         return (is_symbol(turn_symbol, [7,9])) or (is_symbol(turn_symbol, [2,5]))
     #For corner positions, the function checks row, columns, and diagnols if the symbol played in the latest turn has the center spot.
     #If the symbol does not hold the center spot, only the row and column are checked.
+    is_center_symbol_equal_turn_symbol = is_symbol(turn_symbol,[turn_position])
+    #Checking for wins
     elif turn_position == 1:
-        if center_symbol == turn_symbol:
+        if is_center_symbol_equal_turn_symbol:
             return (is_symbol(turn_symbol, [2,3])) or (is_symbol(turn_symbol, [4,7])) or (is_symbol(turn_symbol,[9]))
         else:
             return (is_symbol(turn_symbol, [2,3])) or (is_symbol(turn_symbol, [4,7]))
     elif turn_position == 3:
-        if center_symbol == turn_symbol:
+        if is_center_symbol_equal_turn_symbol:
             return (is_symbol(turn_symbol, [1,2])) or (is_symbol(turn_symbol, [6,9])) or (is_symbol(turn_symbol,[7]))
         else:
             return (is_symbol(turn_symbol, [1,2])) or (is_symbol(turn_symbol, [6,9]))
     elif turn_position == 7:
-        if center_symbol == turn_symbol:
+        if is_center_symbol_equal_turn_symbol:
             return (is_symbol(turn_symbol, [8,9])) or (is_symbol(turn_symbol, [1,4])) or (is_symbol(turn_symbol,[3]))
         else:
             return (is_symbol(turn_symbol, [8,9])) or (is_symbol(turn_symbol, [1,4]))
     elif turn_position == 9:
-        if center_symbol == turn_symbol:
+        if is_center_symbol_equal_turn_symbol:
             return (is_symbol(turn_symbol, [7,8])) or (is_symbol(turn_symbol, [3,6])) or (is_symbol(turn_symbol,[1]))
         else:
             return (is_symbol(turn_symbol, [7,8])) or (is_symbol(turn_symbol, [3,6]))
@@ -216,8 +214,7 @@ def opening_sequence():
 
 #Load empty board dataframe
 board_df = pd.read_csv('board.csv')
-#No player has marked the center square yet
-center_symbol = None
+
 #Board is not full
 is_board_full = False
 #No player has won yet
