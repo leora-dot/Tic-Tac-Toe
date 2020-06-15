@@ -36,7 +36,9 @@ is_game_won, \
 opening_sequence, \
 load_empty_board
 
-#FUNCTIONS FOR GENERATING TEST CASES GO HERE
+#FUNCTIONS
+
+#FACTORIAL & COMBINATION FUNCTIONS
 
 #Factorial Function (just a wrapper)
 def factorial(val):
@@ -60,6 +62,25 @@ def combination_list(k, n = 10):
         combs_strings.append(string)
     return combs_strings
 
+#EDITING FUNCTIONS & BASIC CHECKS
+
+def is_digit_in_integer(digit,integer):
+    for i in range(len(str(integer))):
+        if str(digit) in (str(integer)):
+            return True
+    return False
+
+def drop_is_pos_columns(df):
+    df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_pos_5", "is_pos_6", "is_pos_7", "is_pos_8", "is_pos_9"], inplace = True)
+
+def drop_combo_column(df):
+    df.drop(columns = ["combo"], inplace = True)
+
+def drop_win_combination_columns(df):
+    df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357"], inplace = True)
+
+#FUNCTIONS FOR GENERATING THE TESTING_DF
+
 #Generates latest position for a given board configuration
 def position_generator(string_list):
     position_list = []
@@ -67,12 +88,6 @@ def position_generator(string_list):
         for i in range(len(string)):
             position_list.append((int(string), int(string[i])))
     return position_list
-
-def is_digit_in_integer(digit,integer):
-    for i in range(len(str(integer))):
-        if str(digit) in (str(integer)):
-            return True
-    return False
 
 #Generates board based on row in testing dataframe
 def row_to_board(row_index, symbol = "x"):
@@ -99,8 +114,10 @@ def row_to_board(row_index, symbol = "x"):
     if testing_df.is_pos_9.iloc[row_index]:
         update_board(9,symbol)
 
+# FUNCTIONS FOR GENERATING GAME RESULTS
+
 #Generates adds the result of the is_game_won function to the testing df.
-#By default, assumes five turns have been played.
+#By default, assumes 6 turns have been played.
 def game_result_generator(symbol = "x", turn_count = 6):
     testing_df["is_actual_win"] = ""
     #Adding game results based on each row in counter.
@@ -114,14 +131,15 @@ def game_result_generator(symbol = "x", turn_count = 6):
 def game_result_validator():
     testing_df["is_result_valid"] = testing_df.is_actual_win == testing_df.is_valid_win
 
-def drop_is_pos_columns(df):
-    df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_pos_5", "is_pos_6", "is_pos_7", "is_pos_8", "is_pos_9"], inplace = True)
+#FUNCTIONS FOR GENERATING THE INVALID DF
 
-def drop_combo_column(df):
-    df.drop(columns = ["combo"], inplace = True)
+def invalid_result_generator():
+    #selecting rows with invalid results
+    invalid = testing_df[testing_df.is_result_valid == False].reset_index(drop = True)
+    invalid.drop(columns = ["is_result_valid"], inplace = True)
+    return invalid
 
-def drop_win_combination_columns(df):
-    df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357"], inplace = True)
+#FUNCTIONS FOR SUMARIZING THE INVALID DF
 
 def result_validity_summary():
     summary = testing_df.is_result_valid.value_counts()
@@ -143,12 +161,6 @@ def valid_win_location_summary():
     print("\nValid Win Location Summary:\n", summary)
     return summary
 
-def invalid_result_generator():
-    #selecting rows with invalid results
-    invalid = testing_df[testing_df.is_result_valid == False].reset_index(drop = True)
-    invalid.drop(columns = ["is_result_valid"], inplace = True)
-    return invalid
-
 #CALCULATING NUMBER OF TEST CASES
 
 #board configurations
@@ -168,7 +180,7 @@ def invalid_result_generator():
 #1,386 test cases
     #Only 1,098 need to be tested as 288 are impossible
 
-#POPULATING PANDAS TABLE WITH ALL TEST CASES
+#GENERATING TESTING DF
 
 #list of board configurations
 board_configuration_list = combination_list(3) #+ combination_list(4) + combination_list(5)
