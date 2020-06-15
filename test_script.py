@@ -34,8 +34,7 @@ is_symbol, \
 turn, \
 is_game_won, \
 opening_sequence, \
-load_empty_board, \
-set_turn_counter
+load_empty_board
 
 #FUNCTIONS FOR GENERATING TEST CASES GO HERE
 
@@ -104,25 +103,15 @@ def row_to_board(row_index, symbol = "x"):
 #Generates adds the result of the is_game_won function to the testing df.
 #By default, assumes five turns have been played.
 def game_result_generator(symbol = "x", turn_count = 6):
-    global turn_counter
-    turn_counter = set_turn_counter(turn_count)
-    print("In game result generator, just set turn_counter to:")
-    print(turn_counter)
     #Creating new column for df
     testing_df["is_actual_win"] = ""
     #Adding game results based on each row in counter.
     for row_index in range(testing_df.is_valid_win.count()):
-        print("In game result generator loop, turn_counter is:")
-        print(turn_counter)
         #create the board
         row_to_board(row_index, symbol)
-        print("After row_to_board, turn_counter is:")
-        print(turn_counter)
         #generate game result - this isn't working right.
-        game_result = is_game_won(testing_df.latest_pos.iloc[row_index],symbol,turn_counter)
+        game_result = is_game_won(testing_df.latest_pos.iloc[row_index],symbol,turn_count)
         testing_df.at[row_index,"is_actual_win"] = game_result
-    print("At end of game_result generator, turn counter is:")
-    print(turn_counter)
 
 #CALCULATING NUMBER OF TEST CASES
 
@@ -213,33 +202,9 @@ testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147
 
 ##GENERATING GAME RESULTS BASED ON THE TEST CASES
 
-turn_counter = set_turn_counter(5)
-print("In code, you just set the turn counter to:")
-print(turn_counter)
-
 testing_df = testing_df.head(4)
 
 game_result_generator()
-
-print("After running, game_result_generator, turn_counter is:")
-print(turn_counter)
-
-#WHAT ARE ALL THE THINGS THAT HAPPEN WITH TURN COUNTER
-    #IMPORTS & GENERATING TESTING DATAFRAME
-        #turn_counter does not exist
-    #INSTANTIATION HERE IN CODE
-        #turn counter instantiated at five
-        #turn counter prints at five
-    #WHEN WE GO TO GAME RESULT GENERATOR
-        #turn counter reinstantiated at 6
-        #turn counter prints at six
-        #turn_counter is correct throughout the function
-    #WHEN WE RUN IS_GAME_WON
-        #turn counter is zero! Why?
-            #making it global does not help.
-        #what is everything that happens between these functions?
-            #test_script row 120: turn counter = 6
-            #LITERALLY NOTHING CHANGES
 
 print(testing_df)
 
