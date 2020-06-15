@@ -216,5 +216,18 @@ testing_df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_p
 
 print(testing_df)
 
+#RESULTS SUMMARY SHOWS NUMBER OF SCENARIOS WITH VALID & INVALID RESULTS
 results_summary = testing_df.is_result_valid.value_counts()
 print(results_summary)
+
+#INVESTIGATING ERRORS
+
+#table with just the invalid cases
+invalid_df = testing_df[testing_df.is_result_valid == False].reset_index(drop = True)
+#print(invalid_df)
+
+#invalid cases by error type
+invalid_df["error_type"] = invalid_df.is_actual_win == True
+error_type_summary = invalid_df.error_type.value_counts()
+
+print(error_type_summary)
