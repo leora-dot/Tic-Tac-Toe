@@ -216,5 +216,5 @@ testing_df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_p
 
 print(testing_df)
 
-#result_table = testing_df.groupby("is_actual_win","is_valid_win").latest_pos.count()
-#print(result_table)
+results_summary = testing_df.is_result_valid.value_counts()
+print(results_summary)
