@@ -103,7 +103,6 @@ def row_to_board(row_index, symbol = "x"):
 #Generates adds the result of the is_game_won function to the testing df.
 #By default, assumes five turns have been played.
 def game_result_generator(symbol = "x", turn_count = 6):
-    #Creating new column for df
     testing_df["is_actual_win"] = ""
     #Adding game results based on each row in counter.
     for row_index in range(testing_df.is_valid_win.count()):
@@ -112,6 +111,9 @@ def game_result_generator(symbol = "x", turn_count = 6):
         #generate game result - this isn't working right.
         game_result = is_game_won(testing_df.latest_pos.iloc[row_index],symbol,turn_count)
         testing_df.at[row_index,"is_actual_win"] = game_result
+
+def game_result_validator():
+    testing_df["is_result_valid"] = testing_df.is_actual_win == testing_df.is_valid_win
 
 #CALCULATING NUMBER OF TEST CASES
 
@@ -135,7 +137,7 @@ def game_result_generator(symbol = "x", turn_count = 6):
 #POPULATING PANDAS TABLE WITH ALL TEST CASES
 
 #list of board configurations
-board_configuration_list = combination_list(3)# + combination_list(4) + combination_list(5)
+board_configuration_list = combination_list(3) + combination_list(4) + combination_list(5)
 #list of test cases
 test_case_list = position_generator(board_configuration_list)
 
@@ -202,9 +204,15 @@ testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147
 
 ##GENERATING GAME RESULTS BASED ON THE TEST CASES
 
-testing_df = testing_df.head(4)
+#Limiting df to just the top rows to reduce calculations
+#testing_df = testing_df.head(4)
 
 game_result_generator()
+game_result_validator()
+
+#Dropping extranous columns. These may be helpful when investigating errors but are unneeded for the moment.
+
+testing_df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_pos_5", "is_pos_6", "is_pos_7", "is_pos_8", "is_pos_9"], inplace = True)
 
 print(testing_df)
 
