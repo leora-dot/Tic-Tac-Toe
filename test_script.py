@@ -75,7 +75,6 @@ def is_digit_in_integer(digit,integer):
     return False
 
 #Generates board based on row in testing dataframe
-
 def row_to_board(row_index, symbol = "x"):
     #Start with an empty board
     global board_df
@@ -114,6 +113,36 @@ def game_result_generator(symbol = "x", turn_count = 6):
 
 def game_result_validator():
     testing_df["is_result_valid"] = testing_df.is_actual_win == testing_df.is_valid_win
+
+def drop_is_pos_columns(df):
+    df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_pos_5", "is_pos_6", "is_pos_7", "is_pos_8", "is_pos_9"], inplace = True)
+
+def drop_combo_column(df):
+    df.drop(columns = ["combo"], inplace = True)
+
+def drop_win_combination_columns(df):
+    df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357"], inplace = True)
+
+def result_validity_summary():
+    summary = testing_df.is_result_valid.value_counts()
+    print("\nResults Validity Summary:\n", summary)
+    return summary
+
+def error_type_summary():
+    summary = invalid_df.error_type.value_counts()
+    print("\nError Type Summary:\n", summary)
+    return summary
+
+def latest_position_summary():
+    summary = invalid_df.latest_pos.value_counts()
+    print("\nLatest Position Summary:\n",summary)
+    return summary
+
+def invalid_result_generator():
+    invalid = testing_df[testing_df.is_result_valid == False].reset_index(drop = True)
+    invalid["error_type"] = invalid.is_actual_win == True
+    invalid.drop(columns = ["is_result_valid"], inplace = True)
+    return invalid
 
 #CALCULATING NUMBER OF TEST CASES
 
@@ -196,8 +225,8 @@ testing_df["is_valid_win"] = testing_df.apply(lambda x: \
 (x["is_win_357"] == True),
 axis =1)
 
-#Dropping duplicative columns, which will not be needed in testing
-testing_df.drop(columns = ["combo","is_impossible"], inplace = True)
+#Dropping is impossible
+testing_df.drop(columns = ["is_impossible"], inplace = True)
 
 ##GENERATING GAME RESULTS BASED ON THE TEST CASES
 
@@ -207,30 +236,7 @@ testing_df.drop(columns = ["combo","is_impossible"], inplace = True)
 game_result_generator()
 game_result_validator()
 
-#RESULTS SUMMARY SHOWS NUMBER OF SCENARIOS WITH VALID & INVALID RESULTS
-results_summary = testing_df.is_result_valid.value_counts()
-print("\nResults Summary:\n", results_summary)
-
 #INVESTIGATING ERRORS
 
 #table with just the invalid cases
-invalid_df = testing_df[testing_df.is_result_valid == False].reset_index(drop = True)
-invalid_df.drop(columns = ["is_result_valid"], inplace = True)
-
-#Hiding win combination columns
-invalid_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357"], inplace = True)
-
-#Hiding position columns
-#invalid_df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_pos_5", "is_pos_6", "is_pos_7", "is_pos_8", "is_pos_9"], inplace = True)
-
-#invalid cases by error type
-invalid_df["error_type"] = invalid_df.is_actual_win == True
-error_type_summary = invalid_df.error_type.value_counts()
-
-print("\nError Type Summary:\n", error_type_summary)
-
-#invalid cases by last position
-invalid_latest_pos_summary = invalid_df.latest_pos.value_counts()
-print("\nLatest Position Summary:\n", invalid_latest_pos_summary)
-
-#click_source_by_month = user_visits.groupby(["utm_source","month"]).id.count().reset_index()
+invalid_df = invalid_result_generator
