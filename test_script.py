@@ -166,7 +166,7 @@ def invalid_result_generator():
 #POPULATING PANDAS TABLE WITH ALL TEST CASES
 
 #list of board configurations
-board_configuration_list = combination_list(3) + combination_list(4) + combination_list(5)
+board_configuration_list = combination_list(3) #+ combination_list(4) + combination_list(5)
 #list of test cases
 test_case_list = position_generator(board_configuration_list)
 
@@ -185,12 +185,15 @@ testing_df["is_pos_8"] = testing_df.apply(lambda x: is_digit_in_integer(8,x["com
 testing_df["is_pos_9"] = testing_df.apply(lambda x: is_digit_in_integer(9,x["combo"]), axis =1)
 
 #New Columns Test for Each Kind of Win, showing whether that board combo should have that win
+#winning by row
 testing_df["is_win_123"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_2"] == True) and (x["is_pos_3"] == True), axis =1)
 testing_df["is_win_456"] = testing_df.apply(lambda x: (x["is_pos_4"] == True) and (x["is_pos_5"] == True) and (x["is_pos_6"] == True), axis =1)
 testing_df["is_win_789"] = testing_df.apply(lambda x: (x["is_pos_7"] == True) and (x["is_pos_8"] == True) and (x["is_pos_9"] == True), axis =1)
+#winning by column
 testing_df["is_win_147"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_4"] == True) and (x["is_pos_7"] == True), axis =1)
 testing_df["is_win_258"] = testing_df.apply(lambda x: (x["is_pos_2"] == True) and (x["is_pos_5"] == True) and (x["is_pos_8"] == True), axis =1)
 testing_df["is_win_369"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) and (x["is_pos_6"] == True) and (x["is_pos_9"] == True), axis =1)
+#winning by diagnal
 testing_df["is_win_159"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_5"] == True) and (x["is_pos_9"] == True), axis =1)
 testing_df["is_win_357"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) and (x["is_pos_5"] == True) and (x["is_pos_7"] == True), axis =1)
 
@@ -212,6 +215,7 @@ axis =1)
 #print(possibility_table)
 
 testing_df = testing_df[testing_df.is_impossible == False].reset_index(drop = True)
+testing_df.drop(columns = ["is_impossible"], inplace = True)
 
 #Is there a win on the board?
 testing_df["is_valid_win"] = testing_df.apply(lambda x: \
@@ -225,18 +229,39 @@ testing_df["is_valid_win"] = testing_df.apply(lambda x: \
 (x["is_win_357"] == True),
 axis =1)
 
-#Dropping is impossible
-testing_df.drop(columns = ["is_impossible"], inplace = True)
+#Which valid win is on the board
+
+testing_df["valid_win_location"] = ""
+
+for row_index in range(testing_df.is_valid_win.count()):
+    win = None
+    if testing_df.is_win_123.iloc[row_index]:
+        win = 123
+    elif testing_df.is_win_456.iloc[row_index]:
+        win = 456
+    elif testing_df.is_win_789.iloc[row_index]:
+        win = 789
+    elif testing_df.is_win_147.iloc[row_index]:
+        win = 147
+    elif testing_df.is_win_258.iloc[row_index]:
+        win = 258
+    elif testing_df.is_win_369.iloc[row_index]:
+        win = 369
+    elif testing_df.is_win_159.iloc[row_index]:
+        win = 159
+    elif testing_df.is_win_357.iloc[row_index]:
+        win = 357
+    testing_df.at[row_index,"valid_win_location"] = win
+
+#drop_is_pos_columns(testing_df)
+#drop_win_combination_columns(testing_df)
+#print(testing_df)
 
 ##GENERATING GAME RESULTS BASED ON THE TEST CASES
 
-#Limiting df to just the top rows to reduce calculations
-#testing_df = testing_df.head(4)
-
-game_result_generator()
-game_result_validator()
+#game_result_generator()
+#game_result_validator()
 
 #INVESTIGATING ERRORS
 
-#table with just the invalid cases
-invalid_df = invalid_result_generator
+#invalid_df = invalid_result_generator()
