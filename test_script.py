@@ -209,21 +209,28 @@ game_result_validator()
 
 #RESULTS SUMMARY SHOWS NUMBER OF SCENARIOS WITH VALID & INVALID RESULTS
 results_summary = testing_df.is_result_valid.value_counts()
-print("\n Results Summary:\n", results_summary)
+print("\nResults Summary:\n", results_summary)
 
 #INVESTIGATING ERRORS
 
 #table with just the invalid cases
 invalid_df = testing_df[testing_df.is_result_valid == False].reset_index(drop = True)
+invalid_df.drop(columns = ["is_result_valid"], inplace = True)
 
 #Hiding win combination columns
 invalid_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357"], inplace = True)
 
 #Hiding position columns
-invalid_df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_pos_5", "is_pos_6", "is_pos_7", "is_pos_8", "is_pos_9"], inplace = True)
+#invalid_df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_pos_5", "is_pos_6", "is_pos_7", "is_pos_8", "is_pos_9"], inplace = True)
 
 #invalid cases by error type
 invalid_df["error_type"] = invalid_df.is_actual_win == True
 error_type_summary = invalid_df.error_type.value_counts()
 
 print("\nError Type Summary:\n", error_type_summary)
+
+#invalid cases by last position
+invalid_latest_pos_summary = invalid_df.latest_pos.value_counts()
+print("\nLatest Position Summary:\n", invalid_latest_pos_summary)
+
+#click_source_by_month = user_visits.groupby(["utm_source","month"]).id.count().reset_index()
