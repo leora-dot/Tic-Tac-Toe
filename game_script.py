@@ -7,10 +7,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
-# OUTSTANDING WORK?
-    #Turn function terminates if non-digit character is entered.
-    #the board is doubled again.
-
 ## FUNCTIONS THAT WILL POWER THE GAME GO HERE
 
 #this function turns board position numbers (1-9) into board_df index numbers (0-8)
@@ -48,10 +44,8 @@ def show_board():
             #two lines make an x
             plt.plot([0.2,0.8],[0.8,0.2], color = char_color)
             plt.plot([0.2,0.8],[0.2,0.8], color = char_color)
-    #Show & Close
+    #Show
     plt.show()
-    plt.close("all")
-    plt.clf()
 
 # This function adds a character to the current board
 def update_board(pos,symbol):
@@ -243,11 +237,10 @@ player_x_name = "Player x"
 player_o_name = "Player o"
 
 #PLAYING THE GAME
-    #Actual gameplay happens here. These three lines can be commented out when testing.
 
 if __name__ == "__main__":
     #Opening sequence can be commented out. It is just text.
-    #opening_sequence()
+    opening_sequence()
     #Looping through turns until we have a winner or a full board.
     while (winner == None) and (is_board_full == False):
         turn(turn_counter)
