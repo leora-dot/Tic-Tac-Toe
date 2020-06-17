@@ -9,6 +9,7 @@ import matplotlib.gridspec as gridspec
 
 # OUTSTANDING WORK?
     #Turn function terminates if non-digit character is entered.
+    #the board is doubled again.
 
 ## FUNCTIONS THAT WILL POWER THE GAME GO HERE
 
@@ -54,6 +55,7 @@ def show_board():
 
 # This function adds a character to the current board
 def update_board(pos,symbol):
+    pos = int(pos)
     #Bringing in global parameters
     global is_board_full
     #Updating the position column
@@ -74,11 +76,29 @@ def set_turn_counter(x):
     return turn_counter
 
 #This function checks if a move is valid:
-def is_valid_move(pos):
+def is_available_pos(pos):
     if pos in list(range(1,10)):
+        pos = int(pos)
         return board_df.is_available.iloc[position_to_index(pos)]
     else:
         return False
+
+def is_valid_move(pos):
+    #Turn pos into an integer if we can.
+    try:
+        pos = float(pos)
+    except ValueError:
+        print(str(pos)+ " isn't a number.\nThe numbers associated with each available spot are shown on the board.")
+        return False
+    #Check if it is a number on the board
+    if pos not in list(range(1,10)):
+        print(str(pos)+" isn't a spot on the board.\nThe numbers associated with each available spot are shown on the board.")
+        return False
+    elif not is_available_pos(pos):
+        print("That spot was already marked.\nThe numbers associated with each available spot are shown on the board.")
+        return False
+    else:
+        return True
 
 #This function checks whether every position in a list is marked with a given symbol
 #Because we are looping through a list, where the symbol may match one item but not others, the =! > False is needed. (== > True would not work.)
@@ -108,17 +128,17 @@ def turn(turn_val):
     print("It's your turn, "+player+"!")
     # Until the board has been updated, the turn loops through prompts to chose a position.
     while is_board_updated == False:
+        #Prompt player for requested pos and request input.
         print("Review the current board then enter the number of the spot you'd like to mark.")
         show_board()
-        requested_pos = int(input())
-        #If the requested position is valid and empty, update the board
+        requested_pos = input()
+        #If the move is valid, update the board and break the loop
         if is_valid_move(requested_pos):
             update_board(requested_pos, symbol)
-            #Set board as updated, breaking the loop
             is_board_updated = True
-        #If the requested position is not valid or empty, continue the loop
+        #If the move is not valid continue the loop
         else:
-            print(str(requested_pos)+" isn't a valid empty spot. \nThe numbers associated with each available spot are shown on the board.")
+            pass
     #If the game has been won, declare a winner, print a congratulations, and show the final board
     if is_game_won(requested_pos,symbol,turn_counter):
         winner = player
