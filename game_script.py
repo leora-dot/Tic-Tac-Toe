@@ -9,7 +9,6 @@ import matplotlib.gridspec as gridspec
 
 # OUTSTANDING WORK?
     #Turn function terminates if non-digit character is entered.
-    #Updating board Visualization
 
 ## FUNCTIONS THAT WILL POWER THE GAME GO HERE
 
@@ -22,13 +21,13 @@ def show_board():
     #the color for x and o characters
     char_color = "blue"
     #Creating the visualization. A figure which will hold the grid
-    #plt.figure(figsize = (6,6))
+    fig = plt.figure(figsize = (6,6))
     gs1 = gridspec.GridSpec(3, 3)
     gs1.update(wspace=0.0, hspace=0.0)
     #Creating the nine subplots one at a time
     for position in board_df.position.tolist():
-        #Creating the a 1x2 square for the border
-        ax = plt.subplot(gs1[position_to_index(position)])
+        #Creating the a 1x1 square for the border
+        ax = fig.add_subplot(gs1[position_to_index(position)])
         ax.set_xlim(0,1)
         ax.set_ylim(0,1)
         ax.set_xticks([],[])
