@@ -10,11 +10,6 @@ import matplotlib.pyplot as plt
     # Why do we sometimes get two figures for the board
         #not on first move?
     # Turn function terminates if non-digit character is entered.
-    # Add is_main function
-    # figure out how to remove that test_is_game_won.csv from the repository / github
-    # Testing is_game_won function:
-        #do we catch all winning combinations?
-        #do we correctly recognize non-winning combinations?
     #Updating board Visualization
         #add title to winning boards
         #move squares closer together to look like a grid
@@ -236,8 +231,9 @@ player_o_name = "Player o"
 #PLAYING THE GAME
     #Actual gameplay happens here. These three lines can be commented out when testing.
 
-#Opening sequence can be commented out. It is just text.
-#opening_sequence()
-#Looping through turns until we have a winner or a full board.
-#while (winner == None) and (is_board_full == False):
-    #turn(turn_counter)
+if __name__ == "__main__":
+    #Opening sequence can be commented out. It is just text.
+    #opening_sequence()
+    #Looping through turns until we have a winner or a full board.
+    while (winner == None) and (is_board_full == False):
+        turn(turn_counter)
