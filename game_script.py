@@ -7,9 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # OUTSTANDING WORK?
-    # Why do we sometimes get two figures for the board
-        #not on first move?
-    # Turn function terminates if non-digit character is entered.
+    #Turn function terminates if non-digit character is entered.
     #Updating board Visualization
         #add title to winning boards
         #move squares closer together to look like a grid
@@ -25,7 +23,6 @@ def show_board():
     #the color for x and o characters
     char_color = "blue"
     #Creating the visualization. A figure which will hold the grid
-    plt.figure()
     #Creating the nine subplots one at a time
     for position in board_df.position.tolist():
         #Creating the a 1x2 square for the border
