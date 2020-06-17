@@ -5,12 +5,12 @@
 import random
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.gridspec as gridspec
 
 # OUTSTANDING WORK?
     #Turn function terminates if non-digit character is entered.
     #Updating board Visualization
         #add title to winning boards
-        #move squares closer together to look like a grid
 
 ## FUNCTIONS THAT WILL POWER THE GAME GO HERE
 
@@ -23,15 +23,19 @@ def show_board():
     #the color for x and o characters
     char_color = "blue"
     #Creating the visualization. A figure which will hold the grid
+    plt.figure(figsize = (6,6))
+    gs1 = gridspec.GridSpec(3, 3)
+    gs1.update(wspace=0.0, hspace=0.0)
     #Creating the nine subplots one at a time
     for position in board_df.position.tolist():
         #Creating the a 1x2 square for the border
-        ax = plt.subplot(3,3,position)
+        #ax = plt.subplot(3,3,position)
+        ax = plt.subplot(gs1[position_to_index(position)])
         ax.set_xlim(0,1)
         ax.set_ylim(0,1)
         ax.set_xticks([],[])
         ax.set_yticks([],[])
-        ax.set_aspect(1)
+        #ax.set_aspect(1)
         #If the square is empty, we want to show how to select it.
         if isinstance(board_df.symbol.iloc[position_to_index(position)], float):
             #The scatterplot adds a single point, which is not shown.
@@ -232,5 +236,10 @@ if __name__ == "__main__":
     #Opening sequence can be commented out. It is just text.
     #opening_sequence()
     #Looping through turns until we have a winner or a full board.
-    while (winner == None) and (is_board_full == False):
-        turn(turn_counter)
+    #while (winner == None) and (is_board_full == False):
+        #turn(turn_counter)
+    pass
+
+update_board(1,"x")
+update_board(2,"o")
+show_board()
