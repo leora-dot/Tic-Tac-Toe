@@ -1,19 +1,15 @@
-#Tyler suggested that I make a tic-tac-toe game.
-#The challenge is to be as efficient as possible in checking whether or not the game has been won.
-#Just for fun (since this is a distraction from the data science coding), I am adding a visualization
-
 import random
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
-## FUNCTIONS THAT WILL POWER THE GAME GO HERE
+#Functions
 
 #this function turns board position numbers (1-9) into board_df index numbers (0-8)
 def position_to_index(position):
     return position-1
 
-#this function shows a visual of the current board, using matplotlib
+#this function visualizes the current board using matplotlib.
 def show_board():
     #the color for x and o characters
     char_color = "blue"
@@ -47,7 +43,7 @@ def show_board():
     #Show
     plt.show()
 
-# This function adds a character to the current board
+#This function adds a character to the current board
 def update_board(pos,symbol):
     pos = int(pos)
     #Bringing in global parameters
@@ -60,16 +56,18 @@ def update_board(pos,symbol):
     if turn_counter == 8:
         is_board_full = True
 
+#This function starts the game with an empty board.
 def load_empty_board():
     global board_df
     board_df = pd.read_csv('board.csv')
     return board_df
 
+#This function sets the turn counter
 def set_turn_counter(x):
     turn_counter = x
     return turn_counter
 
-#This function checks if a move is valid:
+#This function checks if a space on the board is available/empty.
 def is_available_pos(pos):
     if pos in list(range(1,10)):
         pos = int(pos)
@@ -77,6 +75,7 @@ def is_available_pos(pos):
     else:
         return False
 
+#this function checks if a move is valid (including whether or not the space is available)
 def is_valid_move(pos):
     #Turn pos into an integer if we can.
     try:
@@ -95,8 +94,8 @@ def is_valid_move(pos):
         return True
 
 #This function checks whether every position in a list is marked with a given symbol
-#Because we are looping through a list, where the symbol may match one item but not others, the =! > False is needed. (== > True would not work.)
 def is_symbol(symbol,pos_list):
+    #Because we are looping through a list, where the symbol may match one item but not others, the =! > False is needed. (== > True would not work.)
     for pos in pos_list:
         if board_df.symbol.iloc[position_to_index(pos)] != symbol:
             return False
@@ -149,7 +148,7 @@ def turn(turn_val):
         turn_counter +=1
         return
 
-#This function checks if the game has been won, based on the position and symbol marked in the latest turn. I haven't tested it yet!
+#This function checks if the game has been won, based on the position and symbol marked in the latest turn.
 def is_game_won(turn_position,turn_symbol, current_turn):
     #If less than five turns have been played, it is impossible for either player to have won.
     #Note, the function uses 4 because the turn counter starts at zero.
@@ -193,6 +192,7 @@ def is_game_won(turn_position,turn_symbol, current_turn):
     elif turn_position == 5:
         return (is_symbol(turn_symbol, [4,6])) or (is_symbol(turn_symbol, [2,8])) or (is_symbol(turn_symbol,[1,9])) or (is_symbol(turn_symbol,[3,7]))
 
+#this function requests player names and announces who will play first.
 def opening_sequence():
     #Bringing in global variables
     global player_x_name
@@ -214,21 +214,19 @@ def opening_sequence():
     else:
         print(player_o_name+ "goes first!")
 
-## INITIALIZE GAME
-
-#Load empty board dataframe
-board_df = pd.read_csv('board.csv')
+#SETTING UP THE GAME
 
 #Board is not full
 is_board_full = False
 #No player has won yet
 winner = None
-#Set our turn counter at zero
+#No turns have been played
 turn_counter = set_turn_counter(0)
 
 #Select a random number to chose who goes first
 rand_val = random.randint(0,1)
 
+#board is empty
 board_df = load_empty_board()
 
 #Generic names will be overwritten if the opening sequence function is run.

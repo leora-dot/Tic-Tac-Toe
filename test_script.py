@@ -174,26 +174,26 @@ def valid_win_location_summary():
     print("\nValid Win Location Summary:\n", summary)
     return summary
 
-#CALCULATING NUMBER OF TEST CASES
+#WHAT CASES DO WE NEED TO TEST IN ORDER TO BE SATISFIED THAT THE GAME IS WORKING CORRECTLY?
 
-#board configurations
-#At the end of the five move game a player can have filled any five spots, meaning we would need to test:
-    #all possible board configurations with five spots five spots C(9,5) + four spots C(9,4) +three spots C(9,3).
-    #two spots and one spots do not need to be tested since the is_game_won function defaults to False in these conditions.
-    #the number of spots we need to generate is:
+#Because the is_game_won function looks only at one symbol, I am going to focus on the spots occupied by x only.
+#How many different ways can the board be filled with x's?
+    #1-2 x on the board: these cases are irrelevant. The is_game_won function returns false until the players have had the opportunity to fill three positions.
+    #3 x's on the board: C(9,3) possibilities.
+    #4 x's on the board: C(9,4) possibilities.
+    #5 x's on the board: C(9,5) possibilities.
+    #6+ x's on the board: these cases are impossible. No character can occupy more than five positions on the board.
 
 #print(combination_num(9,5) + combination_num(9,4) + combination_num(9,3))
 #336 board configurations
 
-#Once we have all the board configurations, we need to test each of them for all possible latest positions.
-    #we don't need to do all nine since only the spots filled could have had a latest move.
-    #the number of cases to test is:
+#Because the is_game_won function depends on the most recent move played, we need to test each of the above board configurations with each possible latest played position.
 
 #print(5*combination_num(9,5) + 4*combination_num(9,4) + 3*combination_num(9,3))
 #1,386 test cases
-    #Only 1,098 need to be tested as 288 are impossible
+    #Only 1,098 need to be tested as 288 are impossible (ie, moves were placed on the board after the game was already won) if the possible 1,098 cases are evaluated correctly.
 
-#GENERATING TESTING DF
+#GENERATING A DATAFRAME THAT DESCRIBES ALL THE POSSIBLE COMBINATIONS
 
 #list of board configurations
 board_configuration_list = combination_list(3) + combination_list(4) + combination_list(5)
@@ -206,7 +206,7 @@ testing_df = pd.DataFrame(test_case_list, columns = ['combo', 'latest_pos'])
 #New Columns Show Whether Each Position is Filled
 is_pos_generator()
 
-#New Columns Test for Each Kind of Win, showing whether that board combo should have that win
+#Adding to the dataframe whether each scenario should have resulted in a win.
 #winning by row
 testing_df["is_win_123"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_2"] == True) and (x["is_pos_3"] == True), axis =1)
 testing_df["is_win_456"] = testing_df.apply(lambda x: (x["is_pos_4"] == True) and (x["is_pos_5"] == True) and (x["is_pos_6"] == True), axis =1)
@@ -219,7 +219,7 @@ testing_df["is_win_369"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) an
 testing_df["is_win_159"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_5"] == True) and (x["is_pos_9"] == True), axis =1)
 testing_df["is_win_357"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) and (x["is_pos_5"] == True) and (x["is_pos_7"] == True), axis =1)
 
-#I want to pull out impossible situations, in which the game was won but not in the latest move.
+#I want to pull out impossible situations, in which the game was won and then additional moves were played.
 #The is_game_won function will work incorrectly in these cases, but if it is working correctly, these cases will never occur.
 
 testing_df["is_impossible"] = testing_df.apply(lambda x: \
@@ -239,7 +239,7 @@ axis =1)
 testing_df = testing_df[testing_df.is_impossible == False].reset_index(drop = True)
 testing_df.drop(columns = ["is_impossible"], inplace = True)
 
-#Is there a win on the board?
+#Adding to the table whether there is a win on the board.
 testing_df["is_valid_win"] = testing_df.apply(lambda x: \
 (x["is_win_123"] == True) or \
 (x["is_win_456"] == True) or \
@@ -250,6 +250,8 @@ testing_df["is_valid_win"] = testing_df.apply(lambda x: \
 (x["is_win_159"] == True) or \
 (x["is_win_357"] == True),
 axis =1)
+
+#I really do not want all these columns. Creating a single column that shows how the board has been won.
 
 testing_df["valid_win_location"] = ""
 
@@ -275,7 +277,7 @@ for row_index in range(testing_df.is_valid_win.count()):
 
 #print(testing_df)
 
-##GENERATING GAME RESULTS BASED ON THE TEST CASES
+#RUNNING THE GAME FOR EACH SCENARIO DESCRIBED IN THE TESTING SCENARIO & EVALUATING WHETHER RESULTS ARE CORRECT. 
 
 game_result_generator()
 game_result_validator()
