@@ -8,6 +8,7 @@ import itertools
 
 # TO DO LIST:
     #can you define the list of empty points with a list comprehension?
+    #get rid of the repetition in update_board_status
 
 #Classes
 
@@ -35,7 +36,7 @@ class Board:
             self.o_points.append(requested_point)
             self.o_turn_counter += 1
 
-    def update_board_status(self, last_player):
+    def check_for_win(self, last_player):
         #Assigning variables
         if last_player == "x":
             previous_points = self.x_points[:-1]
@@ -49,6 +50,8 @@ class Board:
         if turn_counter < 3:
             return
         else:
+            x_last = last_point[0]
+            y_last = last_point[1]
             previous_points_combinations = previous_points_combination_generator(previous_points)
             for combination in previous_points_combinations:
                 #assign variables
@@ -58,19 +61,28 @@ class Board:
                 point2 = combination[1]
                 x2 = point2[0]
                 y2 = point2[1]
-                x_last = last_point[0]
-                y_last = last_point[1]
                 #calculate line based on previous points
-                m = (y2-y1)/(x2-x1)
-                b = y1 - m * x1
-                #If last_point is on that line, game is won
-                if y_last == m * x_last +b:
-                    self.is_game_won = True
-                    self.is_game_over = True
-                    self.winner = last_player
-                    return
+                #vertical line
+                if x1 == x2:
+                    #If last_point is on that line, game is won
+                    if x_last == x1:
+                        update_board_winner(winner)
+                        return
+                #horizontal or diagnal line:
+                else:
+                    m = (y2-y1)/(x2-x1)
+                    b = y1 - m * x1
+                    if y_last == m * x_last +b:
+                        #If last_point is on that line, game is won
+                        update_board_winner(winner)
+                        return
             #If the game is not won, check for a tie
             self.is_game_over = len(self.empty_points) == 0
+
+    def update_board_winner(winner):
+        self.is_game_won = True
+        self.is_game_over = True
+        self.winner = winner
 
     def show_board(self):
         #just some print statements for testing. Will replace this with the visualization.
@@ -98,7 +110,7 @@ def previous_points_combination_generator(previous_points):
 
 game_board = Board()
 game_board.update_board("x", (0,0))
-game_board.update_board("x", (0,1))
+game_board.update_board("x", (1,1))
 game_board.update_board("x", (2,2))
 game_board.update_board_status("x")
 game_board.show_board()
