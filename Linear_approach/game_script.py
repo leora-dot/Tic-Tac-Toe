@@ -32,6 +32,15 @@ class Board:
             self.o_points.append(requested_point)
             self.o_turn_counter += 1
 
+    def update_board_status(self, last_player, last_point):
+        #Check for winner / update: is_game_won, winner, is_game_over
+        if last_player == "x":
+            #is_game_won function will go here
+        if last_player == "o":
+            #is_game_won function will go here
+        #If we have no winner, check for a tie
+        self.is_game_over = len(self.empty_points) == 0
+
     def show_board(self):
         pass
 
