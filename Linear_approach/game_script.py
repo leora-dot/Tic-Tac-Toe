@@ -24,7 +24,13 @@ class Board:
         pass
 
     def update_board(self, player, requested_point):
-        pass
+        self.empty_points.remove(requested_point)
+        if player == "x":
+            self.x_points.append(requested_point)
+            self.x_turn_counter += 1
+        if player == "o":
+            self.o_points.append(requested_point)
+            self.o_turn_counter += 1
 
     def show_board(self):
         pass
