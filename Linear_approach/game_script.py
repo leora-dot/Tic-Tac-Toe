@@ -21,7 +21,7 @@ class Board:
         self.winner = None
 
     def is_valid_move(self, requested_point):
-        pass
+        return requested_point in self.empty_points
 
     def update_board(self, player, requested_point):
         self.empty_points.remove(requested_point)
