@@ -100,7 +100,7 @@ class Visualize_Board:
         self.gs1.update(wspace=0.0, hspace=0.0)
 
     def square(self, position):
-        self.ax = self.fig.add_subplot(position)
+        self.ax = self.fig.add_subplot(position-1)
         self.ax.set_xlim(0,1)
         self.ax.set_ylim(0,1)
         self.ax.set_xticks([],[])
@@ -114,12 +114,20 @@ class Visualize_Board:
         plt.plot([0.2,0.8],[0.8,0.2], color = self.char_color)
         plt.plot([0.2,0.8],[0.2,0.8], color = self.char_color)
 
-    def legend(self):
+    def draw_legend(self, position):
         plt.scatter(1.5,1.5, label = "Press "+str(position), color = "grey")
         plt.legend(loc = "lower center")
 
     def visualization(self):
-        pass
+        for i in range(1,10):
+            self.square(i)
+            if position_to_point(i) in game_board.x_points:
+                self.draw_x()
+            elif position_to_point(i) in game_board.o_points:
+                self.draw_o()
+            else:
+                self.draw_legend(position)
+            plt.show()
 
 class Player:
 
@@ -231,4 +239,4 @@ def point_to_position(point):
 game_board = Board()
 player_x = Player("x")
 player_o = Player("o")
-game = TurnLoop()
+#game = TurnLoop()
