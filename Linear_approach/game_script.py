@@ -11,6 +11,7 @@ import itertools
     #adding naming function
     #delete describe_board method once you no longer need for testing
     #testing
+    #has o ever gone first?
 
 #Classes
 
@@ -154,12 +155,12 @@ class TurnLoop:
         self.players = [player_x, player_o]
         self.current_player = self.players[self.turn_counter%2]
         print("Flipping a coin...")
-        print(str(self.current_player.get_name()) + "goes first!")
+        print(str(self.current_player.get_name()) + " goes first!")
         #Game Loop
         while game_board.is_game_over == False:
             self.prompt_move()
             self.implement_move()
-        self.announce_end
+        self.announce_end()
 
     def switch_player(self):
         self.turn_counter += 1
@@ -196,7 +197,7 @@ class TurnLoop:
 
     def announce_end(self):
         if game_board.is_game_won:
-            print(game_board.winner+ "wins! Congratulations!")
+            print(str(game_board.winner.get_name())+ " wins! Congratulations!")
         else:
             print("It's a tie!")
         game_board.show_board
@@ -235,17 +236,9 @@ def point_to_position(point):
 }
     return dict.get(point)
 
-#game_board
-
 #TESTING
 
 game_board = Board()
 player_x = Player("x")
 player_o = Player("o")
 game = TurnLoop()
-
-#game_board.update_board(player_x, (0,0))
-#game_board.update_board(player_o, (1,1))
-
-#test_board = Visualize_Board()
-#test_board.visualization()
