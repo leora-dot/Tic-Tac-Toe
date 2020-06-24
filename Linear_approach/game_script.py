@@ -2,8 +2,6 @@ import random
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
-
-import math
 import itertools
 
 # TO DO LIST:
@@ -95,6 +93,18 @@ class Board:
         print("is_game_won:")
         print(self.is_game_won)
 
+class Player:
+
+    def __init__(symbol):
+        self.symbol = symbol
+        self.name = "Player "+self.symbol
+
+    def update_name(name):
+        self.name = name
+
+    def get_name(self):
+        return self.name
+
 #Functions
 
 def position_to_point(position):
@@ -103,6 +113,19 @@ def position_to_point(position):
 def previous_points_combination_generator(previous_points):
     combination_list = list(itertools.combinations(previous_points,2))
     return combination_list
+
+def is_valid_point(requested_position):
+    if requested_point not in list(range(1,10)):
+        return False
+    else:
+        return requested_point in game_board.empty_points
+
+def turn(player_char):
+    validated_requested_move = None
+    while validated_requested_move = None:
+        #request player inputs
+        #validate player inputs
+    #update board
 
 #Game
 
