@@ -7,7 +7,7 @@ import itertools
 # TO DO LIST:
     #can you define the list of empty points with a list comprehension?
     #clean up your print statements
-    #see if you can clean up the tuple unpacking
+
     #see if you can do a list of integers as strings efficiently
     #adding naming function
     #add visualization function
@@ -89,6 +89,25 @@ class Board:
         print(self.empty_points)
         print("is_game_won:")
         print(self.is_game_won)
+
+class Visualize_Board:
+
+    def __init__(self):
+        pass
+
+    def square(self):
+        pass
+
+    def circle(self):
+        pass
+
+    def legend(self):
+        pass
+
+    def visualization(self):
+        pass
+
+
 
 class Player:
 
