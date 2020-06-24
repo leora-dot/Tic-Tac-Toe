@@ -139,9 +139,11 @@ class Player:
         #default name
         self.name = "Player "+self.symbol
 
-    def update_name(self, display_name):
-        #later, add input request to this function
-        self.name = display_name
+    def update_name(self):
+        print("What's your name?")
+        requested_name = input()
+        self.name = requested_name
+        print("Welcome, "+str(self.get_name()+ ". You'll play "+str(self.symbol)))
 
     def get_name(self):
         return self.name
@@ -240,4 +242,6 @@ if __name__ == "__main__":
     game_board = Board()
     player_x = Player("x")
     player_o = Player("o")
+    player_x.update_name()
+    player_o.update_name()
     game = TurnLoop()
