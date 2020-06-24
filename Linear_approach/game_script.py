@@ -6,8 +6,9 @@ import itertools
 
 # TO DO LIST:
     #can you define the list of empty points with a list comprehension?
-    #get rid of the repetition in update_board_status
-
+    #clean up your print statements
+    #see if you can clean up the tuple unpacking
+    #see if you can do a list of integers as strings efficiently
 #Classes
 
 class Board:
@@ -105,12 +106,18 @@ class Player:
 
 class TurnLoop:
     def __init__(self):
+        #Game Set Up
         self.turn_counter = 0
         self.rand_value = random.randint(0,1)
         self.players = [player_x, player_o]
         self.current_player = self.players[self.turn_counter%2]
         print("Flipping a coin...")
-        print(current_player.get_name + "goes first!")
+        print(str(self.current_player.get_name) + "goes first!")
+        #Game Loop
+        while game_board.is_game_over == False:
+            self.prompt_move()
+            self.implement_move()
+        self.announce_end
 
     def switch_player(self):
         self.turn_counter += 1
@@ -118,24 +125,32 @@ class TurnLoop:
 
     def prompt_move(self):
         self.requested_point = None
-        while self.requested_point = None:
-            print("It's your turn, " + current_player.get_name)
+        while self.requested_point == None:
+            print("It's your turn, " + str(self.current_player.get_name))
             print("Where would you like to go?")
-            game_board.show_board
+            game_board.show_board()
             requested_position = input()
-            if is_valid_move(requested_position):
-                self.requested_point = position_to_point(requested_position)
+            if self.is_valid_move(requested_position):
+                self.requested_point = position_to_point(int(requested_position))
+                print(self.requested_point)
 
     def is_valid_move(self,requested_position):
-        if requested_position not in list(range(1,10)):
-            is_valid = False
-        else:
-            is_valid = position_to_point(requested_position) in game_board.empty_point
-        return is_valid
+        #When the requested position comes in, it's a string. We check to see if it's an acceptable one.
+        if requested_position not in ["1","2","3","4","5","6","7","8","9"]:
+            print(str(requested_position) + "isn't a spot on the board!")
+            return False
+        #If it's valid, we can turn it into a point and check for emptiness
+        requested_point = position_to_point(int(requested_position))
+        if requested_point not in game_board.empty_points:
+            print("Oops! "+(str(requested_position))+ "is already filled!")
+            return False
+        #If we haven't returned yet, all is well!
+        return True
 
     def implement_move(self):
         game_board.update_board(self.current_player, self.requested_point)
         game_board.check_for_win(self.current_player)
+        self.switch_player()
 
     def announce_end(self):
         if game_board.is_game_won:
@@ -168,26 +183,13 @@ def position_to_point(position):
 
 #TESTING
 
+game_board = Board()
 player_x = Player("x")
 player_o = Player("o")
-game_board = Board()
+game = TurnLoop()
 
 #game_board.update_board(player_x, (0,0))
 #game_board.update_board(player_x, (1,1))
 #game_board.update_board(player_x, (2,2))
 #game_board.check_for_win(player_x)
 #game_board.show_board()
-
-
-#how should turns work?
-    #there should be a turn tracker that proesses whose turn it is
-        #INIT should pick who goes first.
-    #but what are turns?
-        #a turn is a proceedure. What is that proceedure?
-            #request move from player
-            #validate move from player (loop) <- access board
-            #update the board <- access board
-            #check the board for wins <-access board
-            #announce win or end turn
-        #now are you a function or an object?
-            #turn tracker is an
