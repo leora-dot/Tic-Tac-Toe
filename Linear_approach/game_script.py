@@ -151,9 +151,8 @@ class TurnLoop:
     def __init__(self):
         #Game Set Up
         self.turn_counter = 0
-        self.rand_value = random.randint(0,1)
         self.players = [player_x, player_o]
-        self.current_player = self.players[self.turn_counter%2]
+        self.current_player = self.players[random.randint(0,1)]
         print("Flipping a coin...")
         print(str(self.current_player.get_name()) + " goes first!")
         #Game Loop
