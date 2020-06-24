@@ -8,7 +8,6 @@ import itertools
     #can you define the list of empty points with a list comprehension?
     #clean up your print statements
     #see if you can do a list of integers as strings efficiently
-    #delete describe_board method once you no longer need for testing
     #testing
 
 #Classes
@@ -80,17 +79,6 @@ class Board:
     def show_board(self):
         current_board = Visualize_Board()
         current_board.visualization()
-
-    def describe_board(self):
-        #just some print statements for testing. Will replace this with the visualization.
-        print("x points:")
-        print(self.x_points)
-        print("o points:")
-        print(self.o_points)
-        print("empty points:")
-        print(self.empty_points)
-        print("is_game_won:")
-        print(self.is_game_won)
 
 class Visualize_Board:
 
@@ -201,7 +189,7 @@ class TurnLoop:
             print(str(game_board.winner.get_name())+ " wins! Congratulations!")
         else:
             print("It's a tie!")
-        game_board.show_board
+        game_board.show_board()
 
 #Functions
 
