@@ -111,17 +111,15 @@ class Visualize_Board:
         self.ax.add_artist(self.draw_circle)
 
     def draw_x(self):
-        plt.plot([0.2,0.8],[0.8,0.2], color = char_color)
-        plt.plot([0.2,0.8],[0.2,0.8], color = char_color)
-        
+        plt.plot([0.2,0.8],[0.8,0.2], color = self.char_color)
+        plt.plot([0.2,0.8],[0.2,0.8], color = self.char_color)
+
     def legend(self):
         plt.scatter(1.5,1.5, label = "Press "+str(position), color = "grey")
         plt.legend(loc = "lower center")
 
     def visualization(self):
         pass
-
-
 
 class Player:
 
@@ -211,6 +209,20 @@ def position_to_point(position):
  9: (2, 0)
 }
     return dict.get(position)
+
+def point_to_position(point):
+    dict = {
+ (0, 2): 1,
+ (1, 2): 2,
+ (2, 2): 3,
+ (0, 1): 4,
+ (1, 1): 5,
+ (2, 1): 6,
+ (0, 0): 7,
+ (1, 0): 8,
+ (2, 0): 9
+}
+    return dict.get(point)
 
 #game_board
 
