@@ -93,16 +93,30 @@ class Board:
 class Visualize_Board:
 
     def __init__(self):
-        pass
+        #create figure
+        self.char_color = "blue"
+        self.fig = plt.figure(figsize = (6,6))
+        self.gs1 = gridspec.GridSpec(3, 3)
+        self.gs1.update(wspace=0.0, hspace=0.0)
 
-    def square(self):
-        pass
+    def square(self, position):
+        self.ax = self.fig.add_subplot(position)
+        self.ax.set_xlim(0,1)
+        self.ax.set_ylim(0,1)
+        self.ax.set_xticks([],[])
+        self.ax.set_yticks([],[])
 
-    def circle(self):
-        pass
+    def draw_o(self):
+        self.draw_circle = plt.Circle((0.5,0.5), radius = .4, fill = False, color = self.char_color)
+        self.ax.add_artist(self.draw_circle)
 
+    def draw_x(self):
+        plt.plot([0.2,0.8],[0.8,0.2], color = char_color)
+        plt.plot([0.2,0.8],[0.2,0.8], color = char_color)
+        
     def legend(self):
-        pass
+        plt.scatter(1.5,1.5, label = "Press "+str(position), color = "grey")
+        plt.legend(loc = "lower center")
 
     def visualization(self):
         pass
