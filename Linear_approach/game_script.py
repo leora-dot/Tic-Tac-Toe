@@ -112,9 +112,15 @@ class TurnLoop:
         print("Flipping a coin...")
         print(current_player.get_name + "goes first!")
 
-
     def prompt_move(self):
-        pass
+        self.requested_point = None
+        while self.requested_point = None:
+            print("It's your turn, " + current_player.get_name)
+            print("Where would you like to go?")
+            game_board.show_board
+            requested_position = input()
+            if is_valid_move(requested_position):
+                self.requested_point = position_to_point(requested_position)
 
     def is_valid_move(self,requested_position):
         if requested_position not in list(range(1,10)):
@@ -122,6 +128,10 @@ class TurnLoop:
         else:
             is_valid = position_to_point(requested_position) in game_board.empty_point
         return is_valid
+
+    def implement_move(self):
+        game_board.update_board(self.current_player, self.requested_point)
+        game_board.check_for_win(self.current_player)
 
 #Functions
 
