@@ -93,41 +93,41 @@ class Board:
 class Visualize_Board:
 
     def __init__(self):
-        #create figure
-        self.char_color = "blue"
+        self.x_color = "cornflowerblue"
+        self.o_color = "mediumspringgreen"
         self.fig = plt.figure(figsize = (6,6))
         self.gs1 = gridspec.GridSpec(3, 3)
         self.gs1.update(wspace=0.0, hspace=0.0)
 
     def square(self, position):
-        self.ax = self.fig.add_subplot(position-1)
+        self.ax = self.fig.add_subplot(self.gs1[position - 1])
         self.ax.set_xlim(0,1)
         self.ax.set_ylim(0,1)
         self.ax.set_xticks([],[])
         self.ax.set_yticks([],[])
 
     def draw_o(self):
-        self.draw_circle = plt.Circle((0.5,0.5), radius = .4, fill = False, color = self.char_color)
+        self.draw_circle = plt.Circle((0.5,0.5), radius = .4, fill = False, color = self.o_color)
         self.ax.add_artist(self.draw_circle)
 
     def draw_x(self):
-        plt.plot([0.2,0.8],[0.8,0.2], color = self.char_color)
-        plt.plot([0.2,0.8],[0.2,0.8], color = self.char_color)
+        plt.plot([0.2,0.8],[0.8,0.2], color = self.x_color)
+        plt.plot([0.2,0.8],[0.2,0.8], color = self.x_color)
 
     def draw_legend(self, position):
         plt.scatter(1.5,1.5, label = "Press "+str(position), color = "grey")
         plt.legend(loc = "lower center")
 
     def visualization(self):
-        for i in range(1,10):
+        for i in list(range(1,10)):
             self.square(i)
             if position_to_point(i) in game_board.x_points:
                 self.draw_x()
             elif position_to_point(i) in game_board.o_points:
                 self.draw_o()
             else:
-                self.draw_legend(position)
-            plt.show()
+                self.draw_legend(i)
+        plt.show()
 
 class Player:
 
@@ -240,3 +240,9 @@ game_board = Board()
 player_x = Player("x")
 player_o = Player("o")
 #game = TurnLoop()
+
+game_board.update_board(player_x, (0,0))
+game_board.update_board(player_o, (1,1))
+
+test_board = Visualize_Board()
+test_board.visualization()
