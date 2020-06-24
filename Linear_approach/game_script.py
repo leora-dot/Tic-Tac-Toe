@@ -80,6 +80,10 @@ class Board:
         self.winner = winner
 
     def show_board(self):
+        current_board = Visualize_Board()
+        current_board.visualization()
+
+    def describe_board(self):
         #just some print statements for testing. Will replace this with the visualization.
         print("x points:")
         print(self.x_points)
@@ -239,10 +243,10 @@ def point_to_position(point):
 game_board = Board()
 player_x = Player("x")
 player_o = Player("o")
-#game = TurnLoop()
+game = TurnLoop()
 
-game_board.update_board(player_x, (0,0))
-game_board.update_board(player_o, (1,1))
+#game_board.update_board(player_x, (0,0))
+#game_board.update_board(player_o, (1,1))
 
-test_board = Visualize_Board()
-test_board.visualization()
+#test_board = Visualize_Board()
+#test_board.visualization()
