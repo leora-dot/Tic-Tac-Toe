@@ -8,7 +8,6 @@ import itertools
     #can you define the list of empty points with a list comprehension?
     #clean up your print statements
     #see if you can do a list of integers as strings efficiently
-    #adding naming function
     #delete describe_board method once you no longer need for testing
     #testing
 
@@ -136,7 +135,6 @@ class Player:
 
     def __init__(self, symbol):
         self.symbol = symbol
-        #default name
         self.name = "Player "+self.symbol
 
     def update_name(self):
@@ -151,11 +149,14 @@ class Player:
 class TurnLoop:
     def __init__(self):
         #Game Set Up
-        self.turn_counter = 0
         self.players = [player_x, player_o]
-        self.current_player = self.players[random.randint(0,1)]
+        self.turn_counter = 0
+        self.random_value = random.randint(0,1)
+        self.current_player = self.players[(self.turn_counter + self.random_value)%2]
+
         print("Flipping a coin...")
         print(str(self.current_player.get_name()) + " goes first!")
+
         #Game Loop
         while game_board.is_game_over == False:
             self.prompt_move()
@@ -164,7 +165,7 @@ class TurnLoop:
 
     def switch_player(self):
         self.turn_counter += 1
-        self.current_player = self.players[self.turn_counter%2]
+        self.current_player = self.players[(self.turn_counter + self.random_value)%2]
 
     def prompt_move(self):
         self.requested_point = None
