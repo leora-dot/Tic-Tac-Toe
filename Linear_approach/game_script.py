@@ -9,6 +9,10 @@ import itertools
     #clean up your print statements
     #see if you can clean up the tuple unpacking
     #see if you can do a list of integers as strings efficiently
+    #adding naming function
+    #add visualization function
+    #testing
+
 #Classes
 
 class Board:
@@ -97,9 +101,9 @@ class Player:
         #default name
         self.name = "Player "+self.symbol
 
-    def update_name(self, name):
+    def update_name(self, display_name):
         #later, add input request to this function
-        self.name = name
+        self.name = display_name
 
     def get_name(self):
         return self.name
@@ -126,7 +130,7 @@ class TurnLoop:
     def prompt_move(self):
         self.requested_point = None
         while self.requested_point == None:
-            print("It's your turn, " + str(self.current_player.get_name))
+            print("It's your turn, " + str(self.current_player.get_name()))
             print("Where would you like to go?")
             game_board.show_board()
             requested_position = input()
@@ -187,9 +191,3 @@ game_board = Board()
 player_x = Player("x")
 player_o = Player("o")
 game = TurnLoop()
-
-#game_board.update_board(player_x, (0,0))
-#game_board.update_board(player_x, (1,1))
-#game_board.update_board(player_x, (2,2))
-#game_board.check_for_win(player_x)
-#game_board.show_board()
