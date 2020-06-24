@@ -11,7 +11,6 @@ import itertools
     #adding naming function
     #delete describe_board method once you no longer need for testing
     #testing
-    #has o ever gone first?
 
 #Classes
 
@@ -237,7 +236,8 @@ def point_to_position(point):
 
 #TESTING
 
-game_board = Board()
-player_x = Player("x")
-player_o = Player("o")
-game = TurnLoop()
+if __name__ == "__main__":
+    game_board = Board()
+    player_x = Player("x")
+    player_o = Player("o")
+    game = TurnLoop()
