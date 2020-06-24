@@ -7,10 +7,9 @@ import itertools
 # TO DO LIST:
     #can you define the list of empty points with a list comprehension?
     #clean up your print statements
-
     #see if you can do a list of integers as strings efficiently
     #adding naming function
-    #add visualization function
+    #delete describe_board method once you no longer need for testing
     #testing
 
 #Classes
@@ -155,7 +154,7 @@ class TurnLoop:
         self.players = [player_x, player_o]
         self.current_player = self.players[self.turn_counter%2]
         print("Flipping a coin...")
-        print(str(self.current_player.get_name) + "goes first!")
+        print(str(self.current_player.get_name()) + "goes first!")
         #Game Loop
         while game_board.is_game_over == False:
             self.prompt_move()
