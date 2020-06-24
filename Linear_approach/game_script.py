@@ -15,8 +15,6 @@ class Board:
     def __init__(self):
         self.x_points = []
         self.o_points = []
-        self.x_turn_counter = 0
-        self.o_turn_counter = 0
         self.empty_points = [(0,0), (1,0), (2,0), (0,1), (1,1), (2,1), (0,2), (1,2), (2,2)]
         self.is_game_won = False
         self.is_game_over = False
@@ -29,21 +27,19 @@ class Board:
         self.empty_points.remove(requested_point)
         if player == "x":
             self.x_points.append(requested_point)
-            self.x_turn_counter += 1
         if player == "o":
             self.o_points.append(requested_point)
-            self.o_turn_counter += 1
 
     def check_for_win(self, last_player):
         #Assigning variables
         if last_player == "x":
             previous_points = self.x_points[:-1]
             last_point = self.x_points[-1]
-            turn_counter = self.x_turn_counter
+            turn_counter = len(self.x_points)
         if last_player == "o":
             previous_points = self.o_points[:-1]
             last_point = self.o_points[-1]
-            turn_counter = self.o_turn_counter
+            turn_counter = len(self.o_points)
         #Was the game won in this move?
         if turn_counter < 3:
             return
