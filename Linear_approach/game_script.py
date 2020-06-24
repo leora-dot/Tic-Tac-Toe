@@ -133,6 +133,13 @@ class TurnLoop:
         game_board.update_board(self.current_player, self.requested_point)
         game_board.check_for_win(self.current_player)
 
+    def announce_end(self):
+        if game_board.is_game_won:
+            print(game_board.winner+ "wins! Congratulations!")
+        else:
+            print("It's a tie!")
+        game_board.show_board
+
 #Functions
 
 def previous_points_combination_generator(previous_points):
