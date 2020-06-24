@@ -49,17 +49,13 @@ class Board:
         if turn_counter < 3:
             return
         else:
-            x_last = last_point[0]
-            y_last = last_point[1]
+            x_last, y_last = last_point
             previous_points_combinations = previous_points_combination_generator(previous_points)
             for combination in previous_points_combinations:
                 #assign variables
-                point1 = combination[0]
-                x1 = point1[0]
-                y1 = point1[1]
-                point2 = combination[1]
-                x2 = point2[0]
-                y2 = point2[1]
+                point1, point2 = combination
+                x1, y1 = point1
+                x2, y2 = point2
                 #calculate line based on previous points
                 #vertical line
                 if x1 == x2:
