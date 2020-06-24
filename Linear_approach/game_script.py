@@ -25,18 +25,18 @@ class Board:
 
     def update_board(self, player, requested_point):
         self.empty_points.remove(requested_point)
-        if player == "x":
+        if player == player_x:
             self.x_points.append(requested_point)
-        if player == "o":
+        if player == player_o:
             self.o_points.append(requested_point)
 
     def check_for_win(self, last_player):
         #Assigning variables
-        if last_player == "x":
+        if last_player == player_x:
             previous_points = self.x_points[:-1]
             last_point = self.x_points[-1]
             turn_counter = len(self.x_points)
-        if last_player == "o":
+        if last_player == player_o:
             previous_points = self.o_points[:-1]
             last_point = self.o_points[-1]
             turn_counter = len(self.o_points)
@@ -60,7 +60,7 @@ class Board:
                 if x1 == x2:
                     #If last_point is on that line, game is won
                     if x_last == x1:
-                        update_board_winner(winner)
+                        self.update_board_winner(last_player)
                         return
                 #horizontal or diagnal line:
                 else:
@@ -68,12 +68,12 @@ class Board:
                     b = y1 - m * x1
                     if y_last == m * x_last +b:
                         #If last_point is on that line, game is won
-                        update_board_winner(winner)
+                        self.update_board_winner(last_player)
                         return
             #If the game is not won, check for a tie
             self.is_game_over = len(self.empty_points) == 0
 
-    def update_board_winner(winner):
+    def update_board_winner(self, winner):
         self.is_game_won = True
         self.is_game_over = True
         self.winner = winner
@@ -91,11 +91,13 @@ class Board:
 
 class Player:
 
-    def __init__(symbol):
+    def __init__(self, symbol):
         self.symbol = symbol
+        #default name
         self.name = "Player "+self.symbol
 
-    def update_name(name):
+    def update_name(self, name):
+        #later, add input request to this function
         self.name = name
 
     def get_name(self):
@@ -117,8 +119,9 @@ def is_valid_point(requested_position):
         return requested_point in game_board.empty_points
 
 def turn(player_char):
-    validated_requested_move = None
-    while validated_requested_move = None:
+    pass
+    #validated_requested_move = None
+    #while validated_requested_move == None:
         #request player inputs
         #validate player inputs
     #update board
@@ -127,9 +130,12 @@ def turn(player_char):
 
 #TESTING
 
+player_x = Player("x")
+player_o = Player("o")
 game_board = Board()
-game_board.update_board("x", (0,0))
-game_board.update_board("x", (1,1))
-game_board.update_board("x", (2,2))
-game_board.update_board_status("x")
+
+game_board.update_board(player_x, (0,0))
+game_board.update_board(player_x, (1,1))
+game_board.update_board(player_x, (2,2))
+game_board.check_for_win(player_x)
 game_board.show_board()
