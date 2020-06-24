@@ -103,30 +103,41 @@ class Player:
     def get_name(self):
         return self.name
 
-#Functions
+class TurnLoop:
+    def __init__(self):
+        self.turn_counter = 0
+        self.rand_value = random.randint(0,1)
 
-def position_to_point(position):
-    pass
+    def prompt_move(self):
+        pass
+
+    def is_valid_move(self,requested_position):
+        if requested_position not in list(range(1,10)):
+            is_valid = False
+        else:
+            is_valid = position_to_point(requested_position) in game_board.empty_point
+        return is_valid
+
+#Functions
 
 def previous_points_combination_generator(previous_points):
     combination_list = list(itertools.combinations(previous_points,2))
     return combination_list
 
-def is_valid_point(requested_position):
-    if requested_point not in list(range(1,10)):
-        return False
-    else:
-        return requested_point in game_board.empty_points
+def position_to_point(position):
+    dict = {
+ 1: (0, 2),
+ 2: (1, 2),
+ 3: (2, 2),
+ 4: (0, 1),
+ 5: (1, 1),
+ 6: (2, 1),
+ 7: (0, 0),
+ 8: (1, 0),
+ 9: (2, 0)
+}
 
-def turn(player_char):
-    pass
-    #validated_requested_move = None
-    #while validated_requested_move == None:
-        #request player inputs
-        #validate player inputs
-    #update board
-
-#Game
+#game_board
 
 #TESTING
 
@@ -139,3 +150,24 @@ game_board.update_board(player_x, (1,1))
 game_board.update_board(player_x, (2,2))
 game_board.check_for_win(player_x)
 game_board.show_board()
+
+
+#how should turns work?
+    #there should be a turn tracker that proesses whose turn it is
+        #INIT should pick who goes first.
+    #but what are turns?
+        #a turn is a proceedure. What is that proceedure?
+            #request move from player
+            #validate move from player (loop) <- access board
+            #update the board <- access board
+            #check the board for wins <-access board
+            #announce win or end turn
+        #now are you a function or an object?
+            #turn tracker is an
+
+thisdict = {
+  "brand": "Ford",
+  "model": "Mustang",
+  "year": 1964
+}
+print(thisdict)
