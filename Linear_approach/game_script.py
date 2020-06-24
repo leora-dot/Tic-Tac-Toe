@@ -112,6 +112,10 @@ class TurnLoop:
         print("Flipping a coin...")
         print(current_player.get_name + "goes first!")
 
+    def switch_player(self):
+        self.turn_counter += 1
+        self.current_player = self.players[self.turn_counter%2]
+
     def prompt_move(self):
         self.requested_point = None
         while self.requested_point = None:
