@@ -107,6 +107,11 @@ class TurnLoop:
     def __init__(self):
         self.turn_counter = 0
         self.rand_value = random.randint(0,1)
+        self.players = [player_x, player_o]
+        self.current_player = self.players[self.turn_counter%2]
+        print("Flipping a coin...")
+        print(current_player.get_name + "goes first!")
+
 
     def prompt_move(self):
         pass
@@ -136,6 +141,7 @@ def position_to_point(position):
  8: (1, 0),
  9: (2, 0)
 }
+    return dict.get(position)
 
 #game_board
 
@@ -145,11 +151,11 @@ player_x = Player("x")
 player_o = Player("o")
 game_board = Board()
 
-game_board.update_board(player_x, (0,0))
-game_board.update_board(player_x, (1,1))
-game_board.update_board(player_x, (2,2))
-game_board.check_for_win(player_x)
-game_board.show_board()
+#game_board.update_board(player_x, (0,0))
+#game_board.update_board(player_x, (1,1))
+#game_board.update_board(player_x, (2,2))
+#game_board.check_for_win(player_x)
+#game_board.show_board()
 
 
 #how should turns work?
@@ -164,10 +170,3 @@ game_board.show_board()
             #announce win or end turn
         #now are you a function or an object?
             #turn tracker is an
-
-thisdict = {
-  "brand": "Ford",
-  "model": "Mustang",
-  "year": 1964
-}
-print(thisdict)
