@@ -7,12 +7,8 @@ import itertools
 point_list = [(0,2), (1,2), (2,2), (0,1), (1,1), (2,1), (0,0), (1,0), (2,0)]
 
 # TO DO LIST:
-    #can you define the list of empty points with a list comprehension?
-    #clean up your print statements
     #see if you can do a list of integers as strings efficiently
     #testing
-    #do the dictionary thing
-    #search every goddamn time you use str() and be smarter
 
 #Classes
 
@@ -133,7 +129,7 @@ class Player:
         print("What's your name?")
         requested_name = input()
         self.name = requested_name
-        print("Welcome, "+str(self.get_name()+ ". You'll play "+str(self.symbol)))
+        print("Welcome, {}! You'll play {}.".format(str(self.get_name()), str(self.symbol)))
 
     def get_name(self):
         return self.name
@@ -147,7 +143,7 @@ class TurnLoop:
         self.current_player = self.players[(self.turn_counter + self.random_value)%2]
 
         print("Flipping a coin...")
-        print(str(self.current_player.get_name()) + " goes first!")
+        print("{} will go first!".format(str(self.current_player.get_name())))
 
         #Game Loop
         while game_board.is_game_over == False:
@@ -162,23 +158,21 @@ class TurnLoop:
     def prompt_move(self):
         self.requested_point = None
         while self.requested_point == None:
-            print("It's your turn, " + str(self.current_player.get_name()))
-            print("Where would you like to go?")
+            print("It's your turn, {}. Where would you like to go?".format(str(self.current_player.get_name()))
             game_board.show_board()
             requested_position = input()
             if self.is_valid_move(requested_position):
                 self.requested_point = position_to_point(int(requested_position))
-                print(self.requested_point)
 
     def is_valid_move(self,requested_position):
         #When the requested position comes in, it's a string. We check to see if it's an acceptable one.
         if requested_position not in ["1","2","3","4","5","6","7","8","9"]:
-            print(str(requested_position) + "isn't a spot on the board!")
+            print("{} isn't a spot on the board!".format(str(requested_position)))
             return False
         #If it's valid, we can turn it into a point and check for emptiness
         requested_point = position_to_point(int(requested_position))
         if requested_point not in game_board.empty_points:
-            print("Oops! "+(str(requested_position))+ "is already filled!")
+            print("Oops! {} is already filled!".format(str(requested_position)))
             return False
         #If we haven't returned yet, all is well!
         return True
@@ -190,7 +184,7 @@ class TurnLoop:
 
     def announce_end(self):
         if game_board.is_game_won:
-            print(str(game_board.winner.get_name())+ " wins! Congratulations!")
+            print("{} wins! Congratulations!".format(str(game_board.winner.get_name()))
         else:
             print("It's a tie!")
         game_board.show_board()
@@ -200,8 +194,6 @@ class TurnLoop:
 def previous_points_combination_generator(previous_points):
     combination_list = list(itertools.combinations(previous_points,2))
     return combination_list
-
-point_list = [(0,2), (1,2), (2,2), (0,1), (1,1), (2,1), (0,0), (1,0), (2,0)]
 
 def position_to_point(position):
     #function may take both string and integer input
@@ -219,6 +211,6 @@ if __name__ == "__main__":
     game_board = Board()
     player_x = Player("x")
     player_o = Player("o")
-    #player_x.update_name()
-    #player_o.update_name()
-    #game = TurnLoop()
+    player_x.update_name()
+    player_o.update_name()
+    game = TurnLoop()
