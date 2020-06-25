@@ -198,19 +198,20 @@ def previous_points_combination_generator(previous_points):
 def position_to_point(position):
     #function may take both string and integer input
     if type(position) == str:
-        position = str(int(position))
+        position = int(position)
     #Now do the lookup
     return point_list[position - 1]
 
 def point_to_position(point):
     return point_list.index(point) + 1
 
-#TESTING
+##GAME
+
+game_board = Board()
+player_x = Player("x")
+player_o = Player("o")
 
 if __name__ == "__main__":
-    game_board = Board()
-    player_x = Player("x")
-    player_o = Player("o")
     player_x.update_name()
     player_o.update_name()
     game = TurnLoop()
