@@ -58,6 +58,22 @@ def combination_list(k, n = 10):
         combs_strings.append(string)
     return combs_strings
 
+def permutation_list(k, n = 10):
+    #this generates a list of lists
+    perms_list = list(itertools.permutations(list(range(1,n)),k))
+    #generating strings with each item
+    perms_strings = []
+    for perm in perms_list:
+        string = ""
+        for i in range(len(perm)):
+            string += str(perm[i])
+        perms_strings.append(string)
+    return perms_strings
+
+print(permutation_list(3))
+permutation_list(4)
+permutation_list(5)
+
 #EDITING FUNCTIONS & BASIC CHECKS
 
 def is_digit_in_integer(digit,integer):
