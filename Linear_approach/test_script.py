@@ -1,6 +1,4 @@
 ##TO DO
-    #import classes & functions
-    #REDEFINE row_to_board
     #REDEFINE game_result_generator
     #clean up all the documentation from the old test script.
 
@@ -26,8 +24,9 @@ TurnLoop, \
 previous_points_combination_generator, \
 position_to_point, \
 point_to_position
-#player_x, \
-#player_o
+
+player_x = Player("x")
+player_o = Player("o")
 
 ## PART 2: FUNCTIONS
 
@@ -95,29 +94,28 @@ def is_pos_generator():
     testing_df["is_pos_9"] = testing_df.apply(lambda x: is_digit_in_integer(9,x["combo"]), axis =1)
 
 #Generates board based on row in testing dataframe
-def row_to_board(row_index, symbol = "x"):
-    #Start with an empty board
-    global board_df
-    board_df = load_empty_board()
+def row_to_board(row_index, player = player_x):
+    #Start with an empty board)
+    test_board = Board()
     #Update the board based on the positions described in testing_df
     if testing_df.is_pos_1.iloc[row_index]:
-        update_board(1,symbol)
+        test_board.update_board(player, position_to_point(1))
     if testing_df.is_pos_2.iloc[row_index]:
-        update_board(2,symbol)
+        test_board.update_board(player, position_to_point(2))
     if testing_df.is_pos_3.iloc[row_index]:
-        update_board(3,symbol)
+        test_board.update_board(player, position_to_point(3))
     if testing_df.is_pos_4.iloc[row_index]:
-        update_board(4,symbol)
+        test_board.update_board(player, position_to_point(4))
     if testing_df.is_pos_5.iloc[row_index]:
-        update_board(5,symbol)
+        test_board.update_board(player, position_to_point(5))
     if testing_df.is_pos_6.iloc[row_index]:
-        update_board(6,symbol)
+        test_board.update_board(player, position_to_point(6))
     if testing_df.is_pos_7.iloc[row_index]:
-        update_board(7,symbol)
+        test_board.update_board(player, position_to_point(7))
     if testing_df.is_pos_8.iloc[row_index]:
-        update_board(8,symbol)
+        test_board.update_board(player, position_to_point(8))
     if testing_df.is_pos_9.iloc[row_index]:
-        update_board(9,symbol)
+        test_board.update_board(player, position_to_point(9))
 
 # FUNCTIONS FOR GENERATING GAME RESULTS
 
