@@ -163,7 +163,7 @@ def valid_win_location_summary():
 #GENERATING A DATAFRAME THAT DESCRIBES ALL THE POSSIBLE COMBINATIONS
 
 #list of board configurations
-board_configuration_list = permutation_list(3) + permutation_list(4) + permutation_list(5)
+board_configuration_list = permutation_list(3) #+ permutation_list(4) + permutation_list(5)
 
 #generating the dataframe
 testing_df = pd.DataFrame(board_configuration_list, columns = ['combo'])
@@ -230,42 +230,42 @@ testing_df = testing_df[testing_df.is_impossible == False].reset_index(drop = Tr
 testing_df.drop(columns = ["is_impossible"], inplace = True)
 
 #Adding to the table whether there is a win on the board.
-#testing_df["is_valid_win"] = testing_df.apply(lambda x: \
-#(x["is_win_123"] == True) or \
-#(x["is_win_456"] == True) or \
-#(x["is_win_789"] == True) or \
-#(x["is_win_147"] == True) or \
-#(x["is_win_258"] == True) or \
-#(x["is_win_369"] == True) or \
-#(x["is_win_159"] == True) or \
-#(x["is_win_357"] == True),
-#axis =1)
+testing_df["is_valid_win"] = testing_df.apply(lambda x: \
+(x["is_win_123"] == True) or \
+(x["is_win_456"] == True) or \
+(x["is_win_789"] == True) or \
+(x["is_win_147"] == True) or \
+(x["is_win_258"] == True) or \
+(x["is_win_369"] == True) or \
+(x["is_win_159"] == True) or \
+(x["is_win_357"] == True),
+axis =1)
 
 #I really do not want all these columns. Creating a single column that shows how the board has been won.
 
-#testing_df["valid_win_location"] = ""
+testing_df["valid_win_location"] = ""
 
-#for row_index in range(testing_df.is_valid_win.count()):
-    #win = None
-    #if testing_df.is_win_123.iloc[row_index]:
-        #win = 123
-    #elif testing_df.is_win_456.iloc[row_index]:
-        #win = 456
-    #elif testing_df.is_win_789.iloc[row_index]:
-        #win = 789
-    #elif testing_df.is_win_147.iloc[row_index]:
-        #win = 147
-    #elif testing_df.is_win_258.iloc[row_index]:
-        #win = 258
-    #elif testing_df.is_win_369.iloc[row_index]:
-        #win = 369
-    #elif testing_df.is_win_159.iloc[row_index]:
-        #win = 159
-    #elif testing_df.is_win_357.iloc[row_index]:
-    #    win = 357
-    #testing_df.at[row_index,"valid_win_location"] = win
+for row_index in range(testing_df.is_valid_win.count()):
+    win = None
+    if testing_df.is_win_123.iloc[row_index]:
+        win = 123
+    elif testing_df.is_win_456.iloc[row_index]:
+        win = 456
+    elif testing_df.is_win_789.iloc[row_index]:
+        win = 789
+    elif testing_df.is_win_147.iloc[row_index]:
+        win = 147
+    elif testing_df.is_win_258.iloc[row_index]:
+        win = 258
+    elif testing_df.is_win_369.iloc[row_index]:
+        win = 369
+    elif testing_df.is_win_159.iloc[row_index]:
+        win = 159
+    elif testing_df.is_win_357.iloc[row_index]:
+        win = 357
+    testing_df.at[row_index,"valid_win_location"] = win
 
-#print(testing_df)
+print(testing_df)
 
 #RUNNING THE GAME FOR EACH SCENARIO DESCRIBED IN THE TESTING SCENARIO & EVALUATING WHETHER RESULTS ARE CORRECT.
 
