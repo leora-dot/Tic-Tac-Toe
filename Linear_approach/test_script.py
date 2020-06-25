@@ -4,20 +4,20 @@
     #REDEFINE game_result_generator
     #clean up all the documentation from the old test script.
 
+##PART 1: IMPORT LIBRARIES & IMPORT CLASSES & FUNCTIONS
+
 #Importing Libraries
 
 import random
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#for factorials
 import math
-#for permutation
 import itertools
 
-# Importing from Game Script
+#Importing Game Functions
 
-#FUNCTIONS
+## PART 2: FUNCTIONS
 
 #FACTORIAL & COMBINATION FUNCTIONS
 
@@ -111,6 +111,7 @@ def row_to_board(row_index, symbol = "x"):
 
 #Generates adds the result of the is_game_won function to the testing df.
 #By default, assumes 6 turns have been played.
+
 def game_result_generator(symbol = "x", turn_count = 6):
     testing_df["is_actual_win"] = ""
     #Adding game results based on each row in counter.
@@ -154,6 +155,8 @@ def valid_win_location_summary():
     summary = invalid_df.valid_win_location.value_counts()
     print("\nValid Win Location Summary:\n", summary)
     return summary
+
+##PART 3: IDENTIFYING TEST CASES
 
 #WHAT CASES DO WE NEED TO TEST IN ORDER TO BE SATISFIED THAT THE GAME IS WORKING CORRECTLY?
 
