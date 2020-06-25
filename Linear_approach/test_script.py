@@ -31,8 +31,6 @@ player_o = Player("o")
 
 ## PART 2: FUNCTIONS
 
-#FACTORIAL & COMBINATION FUNCTIONS
-
 #Factorial Function (just a wrapper)
 def factorial(val):
     return math.factorial(val)
@@ -69,45 +67,6 @@ def permutation_list(k, n = 10):
             string += str(perm[i])
         perms_strings.append(string)
     return perms_strings
-
-#EDITING FUNCTIONS & BASIC CHECKS
-
-def is_digit_in_integer(digit,integer):
-    for i in range(len(str(integer))):
-        if str(digit) in (str(integer)):
-            return True
-    return False
-
-def drop_is_pos_columns(df):
-    df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_pos_5", "is_pos_6", "is_pos_7", "is_pos_8", "is_pos_9"], inplace = True)
-
-def drop_combo_column(df):
-    df.drop(columns = ["combo"], inplace = True)
-
-def drop_win_combination_columns(df):
-    df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357"], inplace = True)
-
-#FUNCTIONS FOR GENERATING THE TESTING_DF
-
-#Generates latest position for a given board configuration
-def position_generator(string_list):
-    position_list = []
-    for string in string_list:
-        for i in range(len(string)):
-            position_list.append((int(string), int(string[i])))
-    return position_list
-
-#generates columns for each position, showing whether it has been filled
-def is_pos_generator():
-    testing_df["is_pos_1"] = testing_df.apply(lambda x: is_digit_in_integer(1,x["combo"]), axis =1)
-    testing_df["is_pos_2"] = testing_df.apply(lambda x: is_digit_in_integer(2,x["combo"]), axis =1)
-    testing_df["is_pos_3"] = testing_df.apply(lambda x: is_digit_in_integer(3,x["combo"]), axis =1)
-    testing_df["is_pos_4"] = testing_df.apply(lambda x: is_digit_in_integer(4,x["combo"]), axis =1)
-    testing_df["is_pos_5"] = testing_df.apply(lambda x: is_digit_in_integer(5,x["combo"]), axis =1)
-    testing_df["is_pos_6"] = testing_df.apply(lambda x: is_digit_in_integer(6,x["combo"]), axis =1)
-    testing_df["is_pos_7"] = testing_df.apply(lambda x: is_digit_in_integer(7,x["combo"]), axis =1)
-    testing_df["is_pos_8"] = testing_df.apply(lambda x: is_digit_in_integer(8,x["combo"]), axis =1)
-    testing_df["is_pos_9"] = testing_df.apply(lambda x: is_digit_in_integer(9,x["combo"]), axis =1)
 
 #Generates board based on row in testing dataframe
 def row_to_board(row_index, player = player_x):
@@ -201,7 +160,7 @@ def valid_win_location_summary():
 #GENERATING A DATAFRAME THAT DESCRIBES ALL THE POSSIBLE COMBINATIONS
 
 #list of board configurations
-board_configuration_list = permutation_list(3) + permutation_list(4) + permutation_list(5)
+board_configuration_list = permutation_list(3) #+ permutation_list(4) + permutation_list(5)
 
 #generating the dataframe
 testing_df = pd.DataFrame(board_configuration_list, columns = ['combo'])
@@ -215,76 +174,87 @@ print(testing_df)
 
 #New Columns Show Whether Each Position is Filled
 
-is_pos_generator()
+def is_pos_generator():
+    testing_df["is_pos_1"] = testing_df.apply(lambda x: is_digit_in_integer(1,x["combo"]), axis =1)
+    testing_df["is_pos_2"] = testing_df.apply(lambda x: is_digit_in_integer(2,x["combo"]), axis =1)
+    testing_df["is_pos_3"] = testing_df.apply(lambda x: is_digit_in_integer(3,x["combo"]), axis =1)
+    testing_df["is_pos_4"] = testing_df.apply(lambda x: is_digit_in_integer(4,x["combo"]), axis =1)
+    testing_df["is_pos_5"] = testing_df.apply(lambda x: is_digit_in_integer(5,x["combo"]), axis =1)
+    testing_df["is_pos_6"] = testing_df.apply(lambda x: is_digit_in_integer(6,x["combo"]), axis =1)
+    testing_df["is_pos_7"] = testing_df.apply(lambda x: is_digit_in_integer(7,x["combo"]), axis =1)
+    testing_df["is_pos_8"] = testing_df.apply(lambda x: is_digit_in_integer(8,x["combo"]), axis =1)
+    testing_df["is_pos_9"] = testing_df.apply(lambda x: is_digit_in_integer(9,x["combo"]), axis =1)
+
+#is_pos_generator()
 
 #Adding to the dataframe whether each scenario should have resulted in a win.
 #winning by row
-testing_df["is_win_123"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_2"] == True) and (x["is_pos_3"] == True), axis =1)
-testing_df["is_win_456"] = testing_df.apply(lambda x: (x["is_pos_4"] == True) and (x["is_pos_5"] == True) and (x["is_pos_6"] == True), axis =1)
-testing_df["is_win_789"] = testing_df.apply(lambda x: (x["is_pos_7"] == True) and (x["is_pos_8"] == True) and (x["is_pos_9"] == True), axis =1)
+#testing_df["is_win_123"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_2"] == True) and (x["is_pos_3"] == True), axis =1)
+#testing_df["is_win_456"] = testing_df.apply(lambda x: (x["is_pos_4"] == True) and (x["is_pos_5"] == True) and (x["is_pos_6"] == True), axis =1)
+#testing_df["is_win_789"] = testing_df.apply(lambda x: (x["is_pos_7"] == True) and (x["is_pos_8"] == True) and (x["is_pos_9"] == True), axis =1)
 #winning by column
-testing_df["is_win_147"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_4"] == True) and (x["is_pos_7"] == True), axis =1)
-testing_df["is_win_258"] = testing_df.apply(lambda x: (x["is_pos_2"] == True) and (x["is_pos_5"] == True) and (x["is_pos_8"] == True), axis =1)
-testing_df["is_win_369"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) and (x["is_pos_6"] == True) and (x["is_pos_9"] == True), axis =1)
+#testing_df["is_win_147"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_4"] == True) and (x["is_pos_7"] == True), axis =1)
+#testing_df["is_win_258"] = testing_df.apply(lambda x: (x["is_pos_2"] == True) and (x["is_pos_5"] == True) and (x["is_pos_8"] == True), axis =1)
+#testing_df["is_win_369"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) and (x["is_pos_6"] == True) and (x["is_pos_9"] == True), axis =1)
 #winning by diagnal
-testing_df["is_win_159"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_5"] == True) and (x["is_pos_9"] == True), axis =1)
-testing_df["is_win_357"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) and (x["is_pos_5"] == True) and (x["is_pos_7"] == True), axis =1)
+#testing_df["is_win_159"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_5"] == True) and (x["is_pos_9"] == True), axis =1)
+#testing_df["is_win_357"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) and (x["is_pos_5"] == True) and (x["is_pos_7"] == True), axis =1)
 
 #I want to pull out impossible situations, in which the game was won and then additional moves were played.
 #The is_game_won function will work incorrectly in these cases, but if it is working correctly, these cases will never occur.
 
-testing_df["is_impossible"] = testing_df.apply(lambda x: \
-((x["is_win_123"] == True) and x["latest_pos"] not in [1,2,3]) or \
-((x["is_win_456"] == True) and x["latest_pos"] not in [4,5,6]) or \
-((x["is_win_789"] == True) and x["latest_pos"] not in [7,8,9]) or \
-((x["is_win_147"] == True) and x["latest_pos"] not in [1,4,7]) or \
-((x["is_win_258"] == True) and x["latest_pos"] not in [2,5,8]) or \
-((x["is_win_369"] == True) and x["latest_pos"] not in [3,6,9]) or \
-((x["is_win_159"] == True) and x["latest_pos"] not in [1,5,9]) or \
-((x["is_win_357"] == True) and x["latest_pos"] not in [3,5,7]),
-axis =1)
+#testing_df["is_impossible"] = testing_df.apply(lambda x: \
+#((x["is_win_123"] == True) and x["latest_pos"] not in [1,2,3]) or \
+#((x["is_win_456"] == True) and x["latest_pos"] not in [4,5,6]) or \
+#((x["is_win_789"] == True) and x["latest_pos"] not in [7,8,9]) or \
+#((x["is_win_147"] == True) and x["latest_pos"] not in [1,4,7]) or \
+#((x["is_win_258"] == True) and x["latest_pos"] not in [2,5,8]) or \
+#((x["is_win_369"] == True) and x["latest_pos"] not in [3,6,9]) or \
+#((x["is_win_159"] == True) and x["latest_pos"] not in [1,5,9]) or \
+#((x["is_win_357"] == True) and x["latest_pos"] not in [3,5,7]),
+#axis =1)
 
 #possibility_table = testing_df.groupby("is_impossible").combo.count()
 #print(possibility_table)
 
-testing_df = testing_df[testing_df.is_impossible == False].reset_index(drop = True)
-testing_df.drop(columns = ["is_impossible"], inplace = True)
+#testing_df = testing_df[testing_df.is_impossible == False].reset_index(drop = True)
+#testing_df.drop(columns = ["is_impossible"], inplace = True)
 
 #Adding to the table whether there is a win on the board.
-testing_df["is_valid_win"] = testing_df.apply(lambda x: \
-(x["is_win_123"] == True) or \
-(x["is_win_456"] == True) or \
-(x["is_win_789"] == True) or \
-(x["is_win_147"] == True) or \
-(x["is_win_258"] == True) or \
-(x["is_win_369"] == True) or \
-(x["is_win_159"] == True) or \
-(x["is_win_357"] == True),
-axis =1)
+#testing_df["is_valid_win"] = testing_df.apply(lambda x: \
+#(x["is_win_123"] == True) or \
+#(x["is_win_456"] == True) or \
+#(x["is_win_789"] == True) or \
+#(x["is_win_147"] == True) or \
+#(x["is_win_258"] == True) or \
+#(x["is_win_369"] == True) or \
+#(x["is_win_159"] == True) or \
+#(x["is_win_357"] == True),
+#axis =1)
 
 #I really do not want all these columns. Creating a single column that shows how the board has been won.
 
-testing_df["valid_win_location"] = ""
+#testing_df["valid_win_location"] = ""
 
-for row_index in range(testing_df.is_valid_win.count()):
-    win = None
-    if testing_df.is_win_123.iloc[row_index]:
-        win = 123
-    elif testing_df.is_win_456.iloc[row_index]:
-        win = 456
-    elif testing_df.is_win_789.iloc[row_index]:
-        win = 789
-    elif testing_df.is_win_147.iloc[row_index]:
-        win = 147
-    elif testing_df.is_win_258.iloc[row_index]:
-        win = 258
-    elif testing_df.is_win_369.iloc[row_index]:
-        win = 369
-    elif testing_df.is_win_159.iloc[row_index]:
-        win = 159
-    elif testing_df.is_win_357.iloc[row_index]:
-        win = 357
-    testing_df.at[row_index,"valid_win_location"] = win
+#for row_index in range(testing_df.is_valid_win.count()):
+    #win = None
+    #if testing_df.is_win_123.iloc[row_index]:
+        #win = 123
+    #elif testing_df.is_win_456.iloc[row_index]:
+        #win = 456
+    #elif testing_df.is_win_789.iloc[row_index]:
+        #win = 789
+    #elif testing_df.is_win_147.iloc[row_index]:
+        #win = 147
+    #elif testing_df.is_win_258.iloc[row_index]:
+        #win = 258
+    #elif testing_df.is_win_369.iloc[row_index]:
+        #win = 369
+    #elif testing_df.is_win_159.iloc[row_index]:
+        #win = 159
+    #elif testing_df.is_win_357.iloc[row_index]:
+    #    win = 357
+    #testing_df.at[row_index,"valid_win_location"] = win
 
 #print(testing_df)
 
