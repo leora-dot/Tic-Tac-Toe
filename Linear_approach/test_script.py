@@ -155,17 +155,19 @@ def valid_win_location_summary():
     #6+ x's on the board: these cases are impossible. No character can occupy more than five positions on the board.
 
 #print(permutation_num(9,5) + permutation_num(9,4) + permutation_num(9,3))
-    #18,648 test scenarios, some of which would be impossible.
+    #18,648 test scenarios
+        #12,600 need to be tested
+        #6,048 are impossible and can be removed
     #See how long it takes - you might have to take a sample.
 
 #GENERATING A DATAFRAME THAT DESCRIBES ALL THE POSSIBLE COMBINATIONS
 
 #list of board configurations
-board_configuration_list = permutation_list(3) #+ permutation_list(4) + permutation_list(5)
+board_configuration_list = permutation_list(3) + permutation_list(4) + permutation_list(5)
 
 #generating the dataframe
 testing_df = pd.DataFrame(board_configuration_list, columns = ['combo'])
-testing_df = testing_df.head(5)
+#testing_df = testing_df.head(5)
 
 #testing_df["latest_pos"] = type(testing_df["combo"])
 
@@ -205,27 +207,27 @@ testing_df["is_win_369"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) an
 testing_df["is_win_159"] = testing_df.apply(lambda x: (x["is_pos_1"] == True) and (x["is_pos_5"] == True) and (x["is_pos_9"] == True), axis =1)
 testing_df["is_win_357"] = testing_df.apply(lambda x: (x["is_pos_3"] == True) and (x["is_pos_5"] == True) and (x["is_pos_7"] == True), axis =1)
 
-print(testing_df)
+#print(testing_df)
 
 #I want to pull out impossible situations, in which the game was won and then additional moves were played.
 #The is_game_won function will work incorrectly in these cases, but if it is working correctly, these cases will never occur.
 
-#testing_df["is_impossible"] = testing_df.apply(lambda x: \
-#((x["is_win_123"] == True) and x["latest_pos"] not in [1,2,3]) or \
-#((x["is_win_456"] == True) and x["latest_pos"] not in [4,5,6]) or \
-#((x["is_win_789"] == True) and x["latest_pos"] not in [7,8,9]) or \
-#((x["is_win_147"] == True) and x["latest_pos"] not in [1,4,7]) or \
-#((x["is_win_258"] == True) and x["latest_pos"] not in [2,5,8]) or \
-#((x["is_win_369"] == True) and x["latest_pos"] not in [3,6,9]) or \
-#((x["is_win_159"] == True) and x["latest_pos"] not in [1,5,9]) or \
-#((x["is_win_357"] == True) and x["latest_pos"] not in [3,5,7]),
-#axis =1)
+testing_df["is_impossible"] = testing_df.apply(lambda x: \
+((x["is_win_123"] == True) and x["latest_pos"] not in [1,2,3]) or \
+((x["is_win_456"] == True) and x["latest_pos"] not in [4,5,6]) or \
+((x["is_win_789"] == True) and x["latest_pos"] not in [7,8,9]) or \
+((x["is_win_147"] == True) and x["latest_pos"] not in [1,4,7]) or \
+((x["is_win_258"] == True) and x["latest_pos"] not in [2,5,8]) or \
+((x["is_win_369"] == True) and x["latest_pos"] not in [3,6,9]) or \
+((x["is_win_159"] == True) and x["latest_pos"] not in [1,5,9]) or \
+((x["is_win_357"] == True) and x["latest_pos"] not in [3,5,7]),
+axis =1)
 
 #possibility_table = testing_df.groupby("is_impossible").combo.count()
 #print(possibility_table)
 
-#testing_df = testing_df[testing_df.is_impossible == False].reset_index(drop = True)
-#testing_df.drop(columns = ["is_impossible"], inplace = True)
+testing_df = testing_df[testing_df.is_impossible == False].reset_index(drop = True)
+testing_df.drop(columns = ["is_impossible"], inplace = True)
 
 #Adding to the table whether there is a win on the board.
 #testing_df["is_valid_win"] = testing_df.apply(lambda x: \
