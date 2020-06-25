@@ -74,37 +74,25 @@ def row_to_board(row_index, player = player_x):
     #Start with an empty board)
     test_board = Board()
     #Update the board based on the positions described in testing_df
-    if testing_df.is_pos_1.iloc[row_index]:
-        test_board.update_board(player, position_to_point(1))
-    if testing_df.is_pos_2.iloc[row_index]:
-        test_board.update_board(player, position_to_point(2))
-    if testing_df.is_pos_3.iloc[row_index]:
-        test_board.update_board(player, position_to_point(3))
-    if testing_df.is_pos_4.iloc[row_index]:
-        test_board.update_board(player, position_to_point(4))
-    if testing_df.is_pos_5.iloc[row_index]:
-        test_board.update_board(player, position_to_point(5))
-    if testing_df.is_pos_6.iloc[row_index]:
-        test_board.update_board(player, position_to_point(6))
-    if testing_df.is_pos_7.iloc[row_index]:
-        test_board.update_board(player, position_to_point(7))
-    if testing_df.is_pos_8.iloc[row_index]:
-        test_board.update_board(player, position_to_point(8))
-    if testing_df.is_pos_9.iloc[row_index]:
-        test_board.update_board(player, position_to_point(9))
+    ##NEW VERSION, needs to play moves in order based on permutation
+    combo = testing_df.combo[row_index].astype(str)
+    for i in list(range(len(combo))):
+        test_board.update_board(player, position_to_point(i))
+
 
 # FUNCTIONS FOR GENERATING GAME RESULTS
 
 #Generates adds the result of the is_game_won function to the testing df.
 #By default, assumes 6 turns have been played.
 
-def game_result_generator(symbol = "x", turn_count = 6):
+def game_result_generator(player = player_x):
     testing_df["is_actual_win"] = ""
     #Adding game results based on each row in counter.
     for row_index in range(testing_df.is_valid_win.count()):
         #create the board
-        row_to_board(row_index, symbol)
+        row_to_board(player)
         #generate game result
+        test_board.check_for_win(self, player)
         game_result = test_board.is_game_won
         testing_df.at[row_index,"is_actual_win"] = game_result
 
@@ -167,7 +155,7 @@ board_configuration_list = permutation_list(3) #+ permutation_list(4) + permutat
 
 #generating the dataframe
 testing_df = pd.DataFrame(board_configuration_list, columns = ['combo'])
-#testing_df = testing_df.head(5)
+testing_df = testing_df.head(5)
 
 #testing_df["latest_pos"] = type(testing_df["combo"])
 
@@ -264,6 +252,9 @@ for row_index in range(testing_df.is_valid_win.count()):
     elif testing_df.is_win_357.iloc[row_index]:
         win = 357
     testing_df.at[row_index,"valid_win_location"] = win
+
+testing_df.drop(columns = ["is_pos_1", "is_pos_2", "is_pos_3", "is_pos_4", "is_pos_5", "is_pos_6", "is_pos_7", "is_pos_8", "is_pos_9"], inplace = True)
+testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147", "is_win_258", "is_win_369", "is_win_159", "is_win_357"], inplace = True)
 
 print(testing_df)
 
