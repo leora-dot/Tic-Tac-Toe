@@ -4,11 +4,8 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import itertools
 
+#this is the list of points on the board. It is referenced by position_to_point and point_to_position.
 point_list = [(0,2), (1,2), (2,2), (0,1), (1,1), (2,1), (0,0), (1,0), (2,0)]
-
-# TO DO LIST:
-    #see if you can do a list of integers as strings efficiently
-    #testing
 
 #Classes
 
@@ -35,8 +32,6 @@ class Board:
     def check_for_win(self, last_player):
         #Assigning variables
         if last_player == player_x:
-            print("check_for_win player")
-            print(last_player)
             previous_points = self.x_points[:-1]
             last_point = self.x_points[-1]
             turn_counter = len(self.x_points)
@@ -44,14 +39,18 @@ class Board:
             previous_points = self.o_points[:-1]
             last_point = self.o_points[-1]
             turn_counter = len(self.o_points)
-        #Was the game won in this move?
+        #If the last_player has played less than three points, they cannot have won.
         if turn_counter < 3:
             return
+        #You win if the last point you played is on the same line as any of the two points you played in previous turns.
         else:
+            #the x & y coordinates of the last point you played.
             x_last, y_last = last_point
+            #all the possible combinations of two points, selected from your previously played points.
             previous_points_combinations = previous_points_combination_generator(previous_points)
+            #now we loop through each set of two points, checking to see if the latest point is on a line with them.
             for combination in previous_points_combinations:
-                #assign variables
+                #the x & y coordinates of the previous points
                 point1, point2 = combination
                 x1, y1 = point1
                 x2, y2 = point2
@@ -214,15 +213,6 @@ player_x = Player("x")
 player_o = Player("o")
 
 if __name__ == "__main__":
-    pass
-    #player_x.update_name()
-    #player_o.update_name()
+    player_x.update_name()
+    player_o.update_name()
     game = TurnLoop()
-
-#test_list = ["A", "B", "C"]
-#print(test_list)
-#print(test_list[1])
-#print(test_list)
-#print(test_list.index("A"))
-#print(test_list)
-#learning: nothing that you're calling on point_list should modify it.
