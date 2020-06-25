@@ -41,6 +41,9 @@ def factorial(val):
 def combination_num(n,r):
     return factorial(n)/((factorial(r)*factorial(n-r)))
 
+def permutation_num(n,r):
+    return factorial(n)/factorial(n-r)
+
 #Generates combinations for n choose k.
 #n defaults to ten since we will ultimately be chosing k positions out of 9 positions.
 def combination_list(k, n = 10):
@@ -173,20 +176,15 @@ def valid_win_location_summary():
 
 #Because the is_game_won function looks only at one symbol, I am going to focus on the spots occupied by x only.
 #How many different ways can the board be filled with x's?
-    #1-2 x on the board: these cases are irrelevant. The is_game_won function returns false until the players have had the opportunity to fill three positions.
-    #3 x's on the board: C(9,3) possibilities.
-    #4 x's on the board: C(9,4) possibilities.
-    #5 x's on the board: C(9,5) possibilities.
+    #1-2 x on the board: these cases are irrelevant. The is_game_won returns false until the players have had the opportunity to fill three positions.
+    #3 x's on the board: P(9,3) possibilities.
+    #4 x's on the board: P(9,4) possibilities.
+    #5 x's on the board: P(9,5) possibilities.
     #6+ x's on the board: these cases are impossible. No character can occupy more than five positions on the board.
 
-#print(combination_num(9,5) + combination_num(9,4) + combination_num(9,3))
-#336 board configurations
-
-#Because the is_game_won function depends on the most recent move played, we need to test each of the above board configurations with each possible latest played position.
-
-#print(5*combination_num(9,5) + 4*combination_num(9,4) + 3*combination_num(9,3))
-#1,386 test cases
-    #Only 1,098 need to be tested as 288 are impossible (ie, moves were placed on the board after the game was already won) if the possible 1,098 cases are evaluated correctly.
+#print(permutation_num(9,5) + permutation_num(9,4) + permutation_num(9,3))
+    #18,648 test scenarios, some of which would be impossible.
+    #See how long it takes - you might have to take a sample.
 
 #GENERATING A DATAFRAME THAT DESCRIBES ALL THE POSSIBLE COMBINATIONS
 
