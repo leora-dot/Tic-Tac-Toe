@@ -1,6 +1,7 @@
 ##TO DO
     #REDEFINE game_result_generator
     #clean up all the documentation from the old test script.
+    #figure out new df based on move orders
 
 ##PART 1: IMPORT LIBRARIES & IMPORT CLASSES & FUNCTIONS
 
@@ -128,8 +129,8 @@ def game_result_generator(symbol = "x", turn_count = 6):
     for row_index in range(testing_df.is_valid_win.count()):
         #create the board
         row_to_board(row_index, symbol)
-        #generate game result - this isn't working right.
-        game_result = is_game_won(testing_df.latest_pos.iloc[row_index],symbol,turn_count)
+        #generate game result
+        game_result = test_board.is_game_won
         testing_df.at[row_index,"is_actual_win"] = game_result
 
 def game_result_validator():
