@@ -17,6 +17,18 @@ import itertools
 
 #Importing Game Functions
 
+from game_script import \
+point_list, \
+Board, \
+Visualize_Board, \
+Player, \
+TurnLoop, \
+previous_points_combination_generator, \
+position_to_point, \
+point_to_position
+#player_x, \
+#player_o
+
 ## PART 2: FUNCTIONS
 
 #FACTORIAL & COMBINATION FUNCTIONS
@@ -188,6 +200,7 @@ test_case_list = position_generator(board_configuration_list)
 testing_df = pd.DataFrame(test_case_list, columns = ['combo', 'latest_pos'])
 
 #New Columns Show Whether Each Position is Filled
+
 is_pos_generator()
 
 #Adding to the dataframe whether each scenario should have resulted in a win.
@@ -263,18 +276,18 @@ for row_index in range(testing_df.is_valid_win.count()):
 
 #RUNNING THE GAME FOR EACH SCENARIO DESCRIBED IN THE TESTING SCENARIO & EVALUATING WHETHER RESULTS ARE CORRECT.
 
-game_result_generator()
-game_result_validator()
+#game_result_generator()
+#game_result_validator()
 
 #INVESTIGATING ERRORS
 
-invalid_df = invalid_result_generator()
+#invalid_df = invalid_result_generator()
 
-drop_is_pos_columns(invalid_df)
-drop_win_combination_columns(invalid_df)
-print(invalid_df)
+#drop_is_pos_columns(invalid_df)
+#drop_win_combination_columns(invalid_df)
+#print(invalid_df)
 
-result_validity_summary()
-error_type_summary()
+#result_validity_summary()
+#error_type_summary()
 #latest_position_summary()
 #valid_win_location_summary()
