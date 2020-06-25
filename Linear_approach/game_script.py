@@ -4,11 +4,15 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import itertools
 
+point_list = [(0,2), (1,2), (2,2), (0,1), (1,1), (2,1), (0,0), (1,0), (2,0)]
+
 # TO DO LIST:
     #can you define the list of empty points with a list comprehension?
     #clean up your print statements
     #see if you can do a list of integers as strings efficiently
     #testing
+    #do the dictionary thing
+    #search every goddamn time you use str() and be smarter
 
 #Classes
 
@@ -17,7 +21,7 @@ class Board:
     def __init__(self):
         self.x_points = []
         self.o_points = []
-        self.empty_points = [(0,0), (1,0), (2,0), (0,1), (1,1), (2,1), (0,2), (1,2), (2,2)]
+        self.empty_points = point_list
         self.is_game_won = False
         self.is_game_over = False
         self.winner = None
@@ -197,33 +201,17 @@ def previous_points_combination_generator(previous_points):
     combination_list = list(itertools.combinations(previous_points,2))
     return combination_list
 
+point_list = [(0,2), (1,2), (2,2), (0,1), (1,1), (2,1), (0,0), (1,0), (2,0)]
+
 def position_to_point(position):
-    dict = {
- 1: (0, 2),
- 2: (1, 2),
- 3: (2, 2),
- 4: (0, 1),
- 5: (1, 1),
- 6: (2, 1),
- 7: (0, 0),
- 8: (1, 0),
- 9: (2, 0)
-}
-    return dict.get(position)
+    #function may take both string and integer input
+    if type(position) == str:
+        position = str(int(position))
+    #Now do the lookup
+    return point_list[position - 1]
 
 def point_to_position(point):
-    dict = {
- (0, 2): 1,
- (1, 2): 2,
- (2, 2): 3,
- (0, 1): 4,
- (1, 1): 5,
- (2, 1): 6,
- (0, 0): 7,
- (1, 0): 8,
- (2, 0): 9
-}
-    return dict.get(point)
+    return point_list.index(point) + 1
 
 #TESTING
 
@@ -231,6 +219,6 @@ if __name__ == "__main__":
     game_board = Board()
     player_x = Player("x")
     player_o = Player("o")
-    player_x.update_name()
-    player_o.update_name()
-    game = TurnLoop()
+    #player_x.update_name()
+    #player_o.update_name()
+    #game = TurnLoop()
