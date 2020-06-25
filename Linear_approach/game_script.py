@@ -158,7 +158,7 @@ class TurnLoop:
     def prompt_move(self):
         self.requested_point = None
         while self.requested_point == None:
-            print("It's your turn, {}. Where would you like to go?".format(str(self.current_player.get_name()))
+            print("It's your turn, {}. Where would you like to go?".format(str(self.current_player.get_name())))
             game_board.show_board()
             requested_position = input()
             if self.is_valid_move(requested_position):
@@ -184,7 +184,7 @@ class TurnLoop:
 
     def announce_end(self):
         if game_board.is_game_won:
-            print("{} wins! Congratulations!".format(str(game_board.winner.get_name()))
+            print("{} wins! Congratulations!".format(str(game_board.winner.get_name())))
         else:
             print("It's a tie!")
         game_board.show_board()
