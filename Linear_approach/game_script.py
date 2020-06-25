@@ -17,7 +17,7 @@ class Board:
     def __init__(self):
         self.x_points = []
         self.o_points = []
-        self.empty_points = point_list
+        self.empty_points = [(0,2), (1,2), (2,2), (0,1), (1,1), (2,1), (0,0), (1,0), (2,0)]
         self.is_game_won = False
         self.is_game_over = False
         self.winner = None
@@ -35,6 +35,8 @@ class Board:
     def check_for_win(self, last_player):
         #Assigning variables
         if last_player == player_x:
+            print("check_for_win player")
+            print(last_player)
             previous_points = self.x_points[:-1]
             last_point = self.x_points[-1]
             turn_counter = len(self.x_points)
@@ -162,7 +164,7 @@ class TurnLoop:
             game_board.show_board()
             requested_position = input()
             if self.is_valid_move(requested_position):
-                self.requested_point = position_to_point(int(requested_position))
+                self.requested_point = position_to_point(requested_position)
 
     def is_valid_move(self,requested_position):
         #When the requested position comes in, it's a string. We check to see if it's an acceptable one.
@@ -170,7 +172,7 @@ class TurnLoop:
             print("{} isn't a spot on the board!".format(str(requested_position)))
             return False
         #If it's valid, we can turn it into a point and check for emptiness
-        requested_point = position_to_point(int(requested_position))
+        requested_point = position_to_point(requested_position)
         if requested_point not in game_board.empty_points:
             print("Oops! {} is already filled!".format(str(requested_position)))
             return False
@@ -212,6 +214,15 @@ player_x = Player("x")
 player_o = Player("o")
 
 if __name__ == "__main__":
-    player_x.update_name()
-    player_o.update_name()
+    pass
+    #player_x.update_name()
+    #player_o.update_name()
     game = TurnLoop()
+
+#test_list = ["A", "B", "C"]
+#print(test_list)
+#print(test_list[1])
+#print(test_list)
+#print(test_list.index("A"))
+#print(test_list)
+#learning: nothing that you're calling on point_list should modify it.
