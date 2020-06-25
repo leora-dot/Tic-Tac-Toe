@@ -83,13 +83,10 @@ def game_result_generator(player = player_x):
         combo = testing_df.combo.iloc[row_index]
         #for each item in the combo, update the board
         for i in list(range(len(combo))):
-            test_board = Board()
             test_board.update_board(player, position_to_point(combo[i]))
         #after the board has been updatd, check for wins
         test_board.check_for_win(player)
-        game_status = test_board.is_game_won
-        game_result = test_board.is_game_won
-        testing_df.at[row_index,"is_actual_win"] = game_result
+        testing_df.at[row_index,"is_actual_win"] = test_board.is_game_won
 
 def game_result_validator():
     testing_df["is_result_valid"] = testing_df.is_actual_win == testing_df.is_valid_win
@@ -150,7 +147,7 @@ board_configuration_list = permutation_list(3) #+ permutation_list(4) + permutat
 
 #generating the dataframe
 testing_df = pd.DataFrame(board_configuration_list, columns = ['combo'])
-testing_df = testing_df.head(1)
+testing_df = testing_df.head(5)
 
 #testing_df["latest_pos"] = type(testing_df["combo"])
 
