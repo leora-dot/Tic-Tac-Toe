@@ -143,11 +143,10 @@ def valid_win_location_summary():
 #GENERATING A DATAFRAME THAT DESCRIBES ALL THE POSSIBLE COMBINATIONS
 
 #list of board configurations
-board_configuration_list = permutation_list(3) #+ permutation_list(4) + permutation_list(5)
+board_configuration_list = permutation_list(3) + permutation_list(4) + permutation_list(5)
 
 #generating the dataframe
 testing_df = pd.DataFrame(board_configuration_list, columns = ['combo'])
-testing_df = testing_df.head(5)
 
 #testing_df["latest_pos"] = type(testing_df["combo"])
 
@@ -253,11 +252,9 @@ testing_df.drop(columns = ["is_win_123", "is_win_456", "is_win_789", "is_win_147
 #RUNNING THE GAME FOR EACH SCENARIO DESCRIBED IN THE TESTING SCENARIO & EVALUATING WHETHER RESULTS ARE CORRECT.
 
 game_result_generator()
+game_result_validator()
 
-print(testing_df)
-
-
-#game_result_validator()
+result_validity_summary()
 
 #print(testing_df)
 
@@ -269,7 +266,7 @@ print(testing_df)
 #drop_win_combination_columns(invalid_df)
 #print(invalid_df)
 
-#result_validity_summary()
+
 #error_type_summary()
 #latest_position_summary()
 #valid_win_location_summary()
