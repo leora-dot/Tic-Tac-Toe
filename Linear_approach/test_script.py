@@ -70,10 +70,6 @@ def permutation_list(k, n = 10):
         perms_strings.append(string)
     return perms_strings
 
-print(permutation_list(3))
-permutation_list(4)
-permutation_list(5)
-
 #EDITING FUNCTIONS & BASIC CHECKS
 
 def is_digit_in_integer(digit,integer):
@@ -205,12 +201,17 @@ def valid_win_location_summary():
 #GENERATING A DATAFRAME THAT DESCRIBES ALL THE POSSIBLE COMBINATIONS
 
 #list of board configurations
-board_configuration_list = combination_list(3) + combination_list(4) + combination_list(5)
-#list of test cases
-test_case_list = position_generator(board_configuration_list)
+board_configuration_list = permutation_list(3) + permutation_list(4) + permutation_list(5)
 
 #generating the dataframe
-testing_df = pd.DataFrame(test_case_list, columns = ['combo', 'latest_pos'])
+testing_df = pd.DataFrame(board_configuration_list, columns = ['combo'])
+testing_df = testing_df.head(5)
+
+testing_df["combo"] = testing_df["combo"].astype("string")
+
+#testing_df["latest_pos"] = type(testing_df["combo"])
+
+print(testing_df)
 
 #New Columns Show Whether Each Position is Filled
 
