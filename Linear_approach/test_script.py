@@ -9,6 +9,7 @@
 
 import random
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 
 import math
@@ -166,7 +167,11 @@ board_configuration_list = permutation_list(3) #+ permutation_list(4) + permutat
 testing_df = pd.DataFrame(board_configuration_list, columns = ['combo'])
 testing_df = testing_df.head(5)
 
-testing_df["combo"] = testing_df["combo"].astype("string")
+#testing_df["latest_pos"] = type(testing_df["combo"])
+
+testing_df["latest_pos"] = testing_df["combo"].astype(str).str[-1].astype(np.int64)
+
+#testing_df["combo"] = testing_df["combo"].astype("string")
 
 #testing_df["latest_pos"] = type(testing_df["combo"])
 
