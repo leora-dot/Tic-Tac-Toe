@@ -5,7 +5,8 @@ import matplotlib.gridspec as gridspec
 import itertools
 
 #this is the list of points on the board. It is referenced by position_to_point and point_to_position.
-point_list = [(0,2), (1,2), (2,2), (0,1), (1,1), (2,1), (0,0), (1,0), (2,0)]
+offset = 0.1
+point_list = [(0 + offset * 2,2), (1 + offset * 2 ,2), (2 +  offset * 2 ,2), (0 + offset ,1), (1 + offset ,1), (2 + offset , 1), (0,0), (1,0), (2,0)]
 
 #Classes
 
@@ -54,21 +55,13 @@ class Board:
                 point1, point2 = combination
                 x1, y1 = point1
                 x2, y2 = point2
-                #calculate line based on previous points
-                #vertical line
-                if x1 == x2:
+
+                m = (y2-y1)/(x2-x1)
+                b = y1 - m * x1
+                if abs( y_last - (m * x_last +b)) < 0.000001: #THESE WOULD BE EQUAL IF NOT FOR ROUNDING ERROR
                     #If last_point is on that line, game is won
-                    if x_last == x1:
-                        self.update_board_winner(last_player)
-                        return
-                #horizontal or diagnal line:
-                else:
-                    m = (y2-y1)/(x2-x1)
-                    b = y1 - m * x1
-                    if y_last == m * x_last +b:
-                        #If last_point is on that line, game is won
-                        self.update_board_winner(last_player)
-                        return
+                    self.update_board_winner(last_player)
+                    return
             #If the game is not won, check for a tie
             self.is_game_over = len(self.empty_points) == 0
 
