@@ -11,10 +11,10 @@ point_list = [(0,2), (1,2), (2,2), (0,1), (1,1), (2,1), (0,0), (1,0), (2,0)]
 
 class Board:
 
-    def __init__(self):
+    def __init__(self, point_values):
         self.x_points = []
         self.o_points = []
-        self.empty_points = [(0,2), (1,2), (2,2), (0,1), (1,1), (2,1), (0,0), (1,0), (2,0)]
+        self.empty_points = [x for x in point_values]
         self.is_game_won = False
         self.is_game_over = False
         self.winner = None
@@ -136,6 +136,7 @@ class Player:
         return self.name
 
 class TurnLoop:
+
     def __init__(self):
         #Game Set Up
         self.players = [player_x, player_o]
@@ -208,7 +209,7 @@ def point_to_position(point):
 
 ##GAME
 
-game_board = Board()
+game_board = Board(point_list)
 player_x = Player("x")
 player_o = Player("o")
 

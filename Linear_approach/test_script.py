@@ -79,7 +79,7 @@ def game_result_generator(player = player_x):
     testing_df["is_actual_win"] = ""
     #for each row, create a new test board and identify the combo
     for row_index in list(range(testing_df.is_valid_win.count())):
-        test_board = Board()
+        test_board = Board(point_list)
         combo = testing_df.combo.iloc[row_index]
         #for each item in the combo, update the board
         for i in list(range(len(combo))):
